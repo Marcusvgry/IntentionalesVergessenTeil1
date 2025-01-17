@@ -7,7 +7,7 @@ const jsPsych = initJsPsych({
         const vpnNumber = responses["VPN-Nummer"];
 
         // Dateiname erstellen
-        const filename = `IntentionalesVergessen_VP${vpnNumber}.csv`;
+        const filename = `IntentionalesVergessen1_VP${vpnNumber}.csv`;
 
         // Daten als CSV speichern
         jsPsych.data.get().localSave("csv", filename);
@@ -43,8 +43,6 @@ var Bedingung_2 = [
 ];
 
 var Stimuli = [];
-var filteredStimuli = [];
-var cuedRecallWords = [];
 
 timeline.push({
     type: jsPsychFullscreen,
@@ -90,13 +88,6 @@ const CBC_VPNNummer = {
                 Stimuli.push({ Wort: Bedingung_2[i], Anweisung: "*eee*" });
             }
         }
-
-        // Filtern der Wörter, die erinnert werden müssen
-        filteredStimuli = Stimuli.filter(stimulus => stimulus.Anweisung === "*eee*");
-
-        for (let stimulus of filteredStimuli) {
-            cuedRecallWords.push(stimulus.Wort);
-        }
     }
 };
 
@@ -140,41 +131,7 @@ const extinction_phase = {
     randomize_order: true
 };
 
-const Instructions_Teil2 = {
-    type: jsPsychInstructions,
-    pages: [
-        `<div class="instructions">
-        Instruktionen Free-Recall </div>`,
-    ],
-    show_clickable_nav: true,
-    button_label_next: "Beginnen",
-    allow_backward: false,
-};
 
-const freeRecallWoerter = {
-    type: freeRecall,
-    prompt: "Instruktionen Free-Recall.",
-    button_label: "Fertig",
-};
-
-const Instructions_Teil3 = {
-    type: jsPsychInstructions,
-    pages: [
-        `<div class="instructions">
-        Instruktionen Cued-Recall </div>`,
-    ],
-    show_clickable_nav: true,
-    button_label_next: "Beginnen",
-    allow_backward: false,
-};
-
-// Cued-Recall Phase
-const cuedRecallTrial = {
-    type: cuedRecall,
-    prompt: "Instruktionen Cued-Recall.",
-    button_label: "Fertig",
-    string_to_display: cuedRecallWords,
-};
 
 // Debriefing
 const Debriefing = {
@@ -193,8 +150,4 @@ timeline.push(preload);
 timeline.push(CBC_VPNNummer);
 timeline.push(instructions);
 timeline.push(extinction_phase);
-timeline.push(Instructions_Teil2);
-timeline.push(freeRecallWoerter);
-timeline.push(Instructions_Teil3);
-timeline.push(cuedRecallTrial);
 timeline.push(Debriefing);
