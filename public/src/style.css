@@ -1,5 +1,6 @@
 /* Ensure the html and body elements take up the full height */
-html, body {
+html,
+body {
   font-family: Arial, sans-serif;
   height: 100%;
   margin: 0;
@@ -16,7 +17,7 @@ html, body {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
   max-width: 500px; /* Maximum width of the container */
   width: 70%;
-  margin: 0 auto; 
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center; /* Center items horizontally */
@@ -80,7 +81,6 @@ html, body {
   text-align: center;
 }
 
-
 .jspsych-btn:hover {
   background-color: #45a049; /* Slightly darker on hover */
 }
@@ -88,4 +88,22 @@ html, body {
 /* CSS-Klasse für größere Schrift */
 .stimulus-large-text {
   font-size: 32px; /* Schriftgröße auf 32px setzen */
+}
+
+.instructions {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 18px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.instructions ul {
+  margin-left: 2em;
+  padding-left: 1em;
+  list-style-type: disc;
+}
+
+.instructions p {
+  margin-bottom: 1em;
 }
