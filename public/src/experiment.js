@@ -154,13 +154,35 @@ const CBC_VPNNummer = {
 
     <p>Bedingung</p>
     <div class="condition-radio">
-        <label for="Bedingung1" class="condition-label">1</label>
-        <input type="radio" id="Bedingung1" name="Bedingung" value="1" required class="condition-radio-input"/>
-        <label for="Bedingung2" class="condition-label">2</label>
-        <input type="radio" id="Bedingung2" name="Bedingung" value="2" required class="condition-radio-input"/>
-    </div>
-    
+  <input type="radio" id="Bedingung1" name="Bedingung" value="1" required class="condition-radio-input"/>
+  <label for="Bedingung1" class="condition-label">1</label>
+
+  <input type="radio" id="Bedingung2" name="Bedingung" value="2" required class="condition-radio-input"/>
+  <label for="Bedingung2" class="condition-label">2</label>
 </div>
+
+
+  <!-- Reaktivierter Ton erinnern -->
+  <p>Reaktivierter Ton erinnern</p>
+  <select name="ReaktivierterTon" id="ReaktivierterTon" required class="condition-select">
+    <option value=""  –</option>
+    <option value="Klavier (Bed. 1)">Klavier (Bed. 1)</option>
+    <option value="Saxophon (Bed. 1)">Saxophon (Bed. 1)</option>
+    <option value="Gitarre (Bed. 2)">Gitarre (Bed. 2)</option>
+    <option value="Violine (Bed. 2)">Violine (Bed. 2)</option>
+  </select>
+
+  <!-- Reaktivierter Ton vergessen -->
+  <p>Reaktivierter Ton vergessen</p>
+  <select name="ReaktivierterTon2" id="ReaktivierterTon2" required class="condition-select">
+    <option value=""  –</option>
+    <option value="Klavier (Bed. 2)">Klavier (Bed. 2)</option>
+    <option value="Saxophon (Bed. 2)">Saxophon (Bed. 2)</option>
+    <option value="Gitarre (Bed. 1)">Gitarre (Bed. 1)</option>
+    <option value="Violine (Bed. 1)">Violine (Bed. 1)</option>
+  </select>
+</div>
+    
 `,
   on_finish: function (data) {
     const responses = data.response;
