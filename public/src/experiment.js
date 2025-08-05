@@ -336,8 +336,8 @@ const beispiel = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: jsPsych.timelineVariable("Wort"),
       choices: "NO_KEYS",
-      trial_duration: 1000,
-      stimulus_duration: 1000,
+      trial_duration: 1200,
+      stimulus_duration: 1200,
       css_classes: ["stimulus-large-text"],
       on_load: function () {
         const sound = jsPsych.evaluateTimelineVariable("sound");
@@ -420,8 +420,8 @@ const testdurchgang_trial = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: jsPsych.timelineVariable("Wort"),
       choices: "NO_KEYS",
-      trial_duration: 1000,
-      stimulus_duration: 1000,
+      trial_duration: 1200,
+      stimulus_duration: 1200,
       css_classes: ["stimulus-large-text"],
       on_load: function () {
         const sound = jsPsych.evaluateTimelineVariable("sound");
@@ -533,8 +533,8 @@ const extinction_phase = {
       type: jsPsychHtmlKeyboardResponse,
       stimulus: jsPsych.timelineVariable("Wort"),
       choices: "NO_KEYS",
-      trial_duration: 1000,
-      stimulus_duration: 1000,
+      trial_duration: 1200,
+      stimulus_duration: 1200,
       css_classes: ["stimulus-large-text"],
       on_load: function () {
         const sound = jsPsych.evaluateTimelineVariable("sound");
