@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Pittsburgh Sleep Quality Index</title>
+    <script src="../jspsych/jspsych.js"></script>
+    <script src="../jspsych/plugin-survey-html-form.js"></script>
+    <link href="../custom.css" rel="stylesheet" type="text/css" />
+  </head>
+
+  <script>
+    var jsPsych = initJsPsych({
+      show_progress_bar: false,
+      experiment_width: 900,
+      on_finish: () => jsPsych.data.displayData(),
+    });
+  </script>
+
+  <script>
+    const random_id = jsPsych.randomization.randomID(10);
+    let scripts_to_load = [];
+    lang = jsPsych.data.getURLVariable("LANG");
+    if (lang == null) lang = "de";
+
+    /* use promises to load scripts to ensure scripts are read in 
+    chronological order, which is important when trials use variables 
+    defined in previous scripts (e.g., language scripts) */
+    function loadScript(src) {
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = src;
+        script.type = "text/javascript";
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+    }
+
+    async function loadAllScripts() {
+      for (const src of scripts_to_load) {
+        await loadScript(src);
+      }
+      // assumes the final timeline is saved in a variable called "timeline"
+      jsPsych.run(timeline);
+    }
+
+    /* Load language defined by URL parameter LANG; default to English if none 
+    provided. */
+    if (lang === "en") {
+      scripts_to_load.push("texts_psqi_en.js");
+    } else if (lang === "de") {
+      scripts_to_load.push("texts_psqi_de.js");
+    } else {
+      scripts_to_load.push("texts_psqi_en.js");
+    }
+
+    scripts_to_load.push("psqi.js");
+
+    loadAllScripts().catch((err) => {
+      console.error("Script loading failed", err);
+    });
+  </script>
+</html>
