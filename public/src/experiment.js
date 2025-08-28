@@ -117,7 +117,6 @@ timeline.push({
   fullscreen_mode: true,
 });
 
-// Sound-Dateien als Variablen definieren
 const soundFiles = {
   guitar: "../sounds/guitar.mp3",
   piano: "../sounds/piano.mp3",
@@ -130,7 +129,6 @@ var piano = new Audio(soundFiles.piano);
 var saxophon = new Audio(soundFiles.saxophon);
 var violine = new Audio(soundFiles.violine);
 
-// Sounds für jsPsych vorladen
 const preloadSounds = {
   type: jsPsychPreload,
   audio: [
@@ -297,7 +295,6 @@ const CBC_VPNNummer = {
   },
 };
 
-// Weitere Phasen und Instruktionen
 const instructions = {
   type: jsPsychInstructions,
   pages: [
