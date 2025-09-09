@@ -216,6 +216,16 @@ function getRememberedWords(list, rlist) {
     : list.slice(Math.floor(list.length / 2));
 }
 
+
+
+
+
+
+
+
+// Fragebogen 
+
+
 function checkOther(
   val,
   comparison,
@@ -276,4 +286,40 @@ function checkOther(
       }
     });
   }
+}
+
+
+function getRndInteger(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// PVT timer function
+function startTimer() {
+  var start = Date.now();
+
+  // Interval in a variable so it can be reset
+  timer_interval = setInterval(timer, 1); // now set the value of the timer_interval variable, which also starts the timer
+
+  function timer() {
+    // get the number of seconds that have elapsed since
+    // startTimer() was called
+    diff = (Date.now() - start) | 0;
+    diff = String(diff);
+
+    // add 00s if necessary
+    if (diff.length == 4) {
+      disp = `<span style="color: rgb(104, 30, 30)">0</span><span style="color:  rgb(241, 26, 26);">${diff}</span>`;
+    } else if (diff.length == 3) {
+      disp = `<span style="color: rgb(104, 30, 30)">00</span><span style="color:  rgb(241, 26, 26)">${diff}</span>`;
+    } else if (diff.length == 2) {
+      disp = `<span style="color: rgb(104, 30, 30)">000</span><span style="color:  rgb(241, 26, 26)">${diff}</span>`;
+    } else if (diff.length == 1) {
+      disp = `<span style="color: rgb(104, 30, 30)">0000</span><span style="color:  rgb(241, 26, 26)">${diff}</span>`;
+    }
+
+    display = document.querySelector("#time");
+    display.innerHTML = disp;
+  }
+  // we don't want to wait a full second before the timer starts
+  minutes = timer();
 }

@@ -1,31 +1,19 @@
-// Initialisierung von jsPsych und der Timeline
 var timeline = [];
 const jsPsych = initJsPsych({
   use_webaudio: false,
   on_finish: function () {
-    // VPN-Nummer speichern
     const responses = jsPsych.data
       .get()
       .filter({ trial_type: "survey-html-form" })
       .values()[0].response;
     const vpnNumber = responses["VPN-Nummer"];
-
-    // Dateiname erstellen
     const filename = `IntentionalesVergessen1_VP${vpnNumber}.csv`;
-
-    // Daten als CSV speichern
     jsPsych.data.get().localSave("csv", filename);
   },
 });
 
-function startExperiment() {
-  jsPsych.run(timeline);
-}
-timeline.push({
-  type: jsPsychFullscreen,
-  fullscreen_mode: true,
-});
 timeline.push(preloadSounds);
+timeline.push(demographics);
 timeline.push(CBC_VPNNummer);
 timeline.push(instructions);
 timeline.push(
@@ -67,5 +55,22 @@ timeline.push(
     selected_fsound,
     true
   )
+);
+timeline.push(
+  pvt_start_screen,
+  pvt_practice_outer,
+  pvt_main_instructions,
+  pvt_core,
+  pvt_end_screen
+);
+timeline.push(stanfordSleepiness);
+timeline.push(pittsburgh1, pittsburgh2);
+timeline.push(
+  meq_instructions,
+  mornEveItem1,
+  mornEveItem7,
+  mornEveItem10,
+  mornEveItem18,
+  mornEveItem19
 );
 timeline.push(Debriefing);

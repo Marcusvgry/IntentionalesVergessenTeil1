@@ -393,4 +393,3 @@ const text_demographics = `
 
 </div>
 `;
-
