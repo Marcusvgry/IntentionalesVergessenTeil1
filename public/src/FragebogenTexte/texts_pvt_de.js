@@ -1,5 +1,9 @@
-const cont_text = "weiter";
-const prev_text = "zurück";
+// const cont_text = "weiter"; // Already defined in texts_demographics_de.js
+// const prev_text = "zurück"; // Already defined in texts_demographics_de.js
+
+// PVT timing constants
+const lapse_time = 10000; // 10 seconds in milliseconds
+const premature_time = 100; // 0.1 seconds in milliseconds
 
 const pvt_start_p1 = `<div class="instructions"> 
     Die nächste Aufgabe testet deine Aufmerksamkeit.  
@@ -35,7 +39,7 @@ const pvt_praise = "<br>Gut gemacht!<br><br>";
 
 const failed_pvt_feedback = () =>
   `<div class="instructions">
-    Sorry, aber du musst mindestens <b>${practice_correct_threshold} von ${practice_correct_threshold}</b> Stoppuhren rechtzeitig stoppen!<br>
+    Sorry, aber du musst mindestens <b>${practice_correct_threshold} von ${n_practice_trials}</b> Stoppuhren rechtzeitig stoppen!<br>
     Du musst jede Uhr innerhalb von ${
       lapse_time / 1000
     } Sekunden stoppen, aber implausible 

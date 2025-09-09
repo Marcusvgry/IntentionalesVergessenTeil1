@@ -7,12 +7,11 @@
 
 html,
 body {
-  height: 100%;
+  min-height: 100%;
   font-family: "Helvetica Neue", Arial, sans-serif;
   background: #ffffff; /* sanfter Hintergrund */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 0;
+  padding: 20px;
 }
 
 /* Haupt-Container */
@@ -179,14 +178,14 @@ body {
 
 .jspsych-content-wrapper {
   display: flex;
-  margin: auto;
+  margin: 20px auto 0;
   flex: 1 1 100%;
   width: 100%;
 }
 
 .jspsych-content {
   text-align: center;
-  margin: auto; /* this is for overflowing content */
+  margin: 0 auto; /* this is for overflowing content */
 }
 
 .jspsych-top {

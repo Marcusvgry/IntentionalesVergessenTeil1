@@ -37,14 +37,6 @@ let n_practice_trials = 3;
 let practice_correct_threshold = 2;
 let max_practice_rounds = 2;
 
-/* If participants fail the three practice trials twice (less than 2 out of 3 correct), 
-the practice phase counts as failed. They are able to continue to the main task, but 
-a note will be made in the data. Thresholds are defined as follows (in ms). We usually use 
-these thresholds for exclusions (more than 20% lapses or 20% prematures). Note that 
-for final analysis, 500 ms count as lapse (we defined exclusions more lenient on purpose). */
-var lapse_time = 1000;
-var premature_time = 100;
-
 // Minimum and maximum waiting interval (ITI when the stopwatch is not counting up).
 var min_wait = 2000;
 var max_wait = 10000;

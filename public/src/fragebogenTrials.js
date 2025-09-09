@@ -157,6 +157,14 @@ var evalPvtPractice = {
     /* After n_practice_trials failed practice rounds */
     if (pvt_practice_round_counter >= max_practice_rounds) {
       repeat_practice = false;
+      if (
+        n_practice_trials - pvt_lapse_count - pvt_premature_stopwatch_count >=
+        practice_correct_threshold
+      ) {
+        pvt_failed_practice = 0;
+      } else {
+        pvt_failed_practice = 1;
+      }
       pvt_failed_practice = 1;
     } else if (
       n_practice_trials - pvt_lapse_count - pvt_premature_stopwatch_count >=
@@ -246,7 +254,6 @@ var pvt_end_screen = {
 
 // PVT TIMELINE -----------------------------------------------------------------------------------------
 
-// PVT practice
 var pvt_practice_inner = {
   timeline: [pvt_fixation, pvt_stopwatch, pvt_feedback],
   on_timeline_finish: () => pvt_practice_trial_counter++,

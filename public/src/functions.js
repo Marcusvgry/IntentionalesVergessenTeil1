@@ -92,7 +92,8 @@ function counteractPrimRecEffects(stimuli) {
   let poolEEE = stimuli.filter((s) => s.instruction === "EEE");
 
   function sample(arr, n) {
-    return jsPsych.randomization.sampleWithoutReplacement(arr, n);
+    const actualN = Math.min(n, arr.length);
+    return jsPsych.randomization.sampleWithoutReplacement(arr, actualN);
   }
 
   let firstVVV = sample(poolVVV, 3);
@@ -216,15 +217,7 @@ function getRememberedWords(list, rlist) {
     : list.slice(Math.floor(list.length / 2));
 }
 
-
-
-
-
-
-
-
-// Fragebogen 
-
+// Fragebogen
 
 function checkOther(
   val,
@@ -288,6 +281,7 @@ function checkOther(
   }
 }
 
+// FUNCTIONS --------------------------------------------------------------------------------------------
 
 function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
