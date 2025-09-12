@@ -1,7 +1,7 @@
 function startExperiment() {
+  createTimeline();
   jsPsych.run(timeline);
 }
-
 /**
  * @param {Array<string>} list: Full list of Words
  * @param {number} rlist: List that will be remembered: 1 or 2
@@ -21,12 +21,21 @@ function createWordLists(list, rlist, tmrsound, tmfsound, rsound, fsound) {
     1
   );
 
-  if (rlist === 1) {
+  console.log("listA:", listA);
+  console.log("listB:", listB);
+  console.log("rlist:", rlist);
+
+  if (rlist === "1") {
     var listA_tmrsound = listA.slice(0, length / 4);
     var listA_r = listA.slice(length / 4, length / 2);
 
     var listB_tmf = listB.slice(0, length / 4);
     var listB_f = listB.slice(length / 4, length / 2);
+
+    console.log("listA_tmrsound:", listA_tmrsound);
+    console.log("listA_r:", listA_r);
+    console.log("listB_tmf:", listB_tmf);
+    console.log("listB_f:", listB_f);
 
     for (let i = 0; i < length / 4; i++) {
       listcomplete.push({
@@ -49,8 +58,9 @@ function createWordLists(list, rlist, tmrsound, tmfsound, rsound, fsound) {
         instruction: "VVV",
         sound: fsound,
       });
+      console.log({ word: listB_f[i], instruction: "VVV", sound: fsound });
     }
-  } else if (rlist === 2) {
+  } else if (rlist === "2") {
     var listA_tmf = listA.slice(0, length / 4);
     var listA_f = listA.slice(length / 4, length / 2);
 
@@ -80,6 +90,7 @@ function createWordLists(list, rlist, tmrsound, tmfsound, rsound, fsound) {
       });
     }
   }
+  console.log("listcomplete:", listcomplete);
   return listcomplete;
 }
 
@@ -145,6 +156,7 @@ function createLearningPhase(
     );
     learningTimeline = jsPsych.randomization.shuffle(learningTimeline);
   }
+  console.log(learningTimeline);
   return {
     timeline: [
       {
@@ -163,28 +175,28 @@ function createLearningPhase(
         on_load: function () {
           const sound = jsPsych.evaluateTimelineVariable("sound");
           switch (sound) {
-            case 1:
+            case "1":
               piano.play();
               setTimeout(function () {
                 piano.pause();
                 piano.currentTime = 0;
               }, 1000);
               break;
-            case 2:
+            case "2":
               saxophon.play();
               setTimeout(function () {
                 saxophon.pause();
                 saxophon.currentTime = 0;
               }, 1000);
               break;
-            case 3:
+            case "3":
               guitar.play();
               setTimeout(function () {
                 guitar.pause();
                 guitar.currentTime = 0;
               }, 1000);
               break;
-            case 4:
+            case "4":
               violine.play();
               setTimeout(function () {
                 violine.pause();
@@ -196,7 +208,7 @@ function createLearningPhase(
       },
       {
         type: jsPsychHtmlKeyboardResponse,
-        stimulus: jsPsych.timelineVariable("Anweisung"),
+        stimulus: jsPsych.timelineVariable("instruction"),
         choices: "NO_KEYS",
         trial_duration: 800,
         css_classes: ["stimulus-large-text"],

@@ -19,37 +19,37 @@ const CBC_VPNNummer = {
   <p>Auswahl sound 1</p>
   <select name="AuswahlSound1" id="AuswahlSound1" required class="condition-select">
     <option value=""  –</option>
-    <option value="Sound 1">Sound 1</option>
-    <option value="Sound 2">Sound 2</option>
-    <option value="Sound 3">Sound 3</option>
-    <option value="Sound 4">Sound 4</option>
+    <option value="1">Sound 1</option>
+    <option value="2">Sound 2</option>
+    <option value="3">Sound 3</option>
+    <option value="4">Sound 4</option>
   </select>
 
   <p>Auswahl sound 2</p>
   <select name="AuswahlSound2" id="AuswahlSound2" required class="condition-select">
     <option value=""  –</option>
-    <option value="Sound 1 (Bed. 2)">Sound 1</option>
-    <option value="Sound 2 (Bed. 2)">Sound 2</option>
-    <option value="Sound 3 (Bed. 1)">Sound 3</option>
-    <option value="Sound 4 (Bed. 1)">Sound 4</option>
+    <option value="1">Sound 1</option>
+    <option value="2">Sound 2</option>
+    <option value="3">Sound 3</option>
+    <option value="4">Sound 4</option>
   </select>
 
   <p>Auswahl sound 3</p>
   <select name="AuswahlSound3" id="AuswahlSound3" required class="condition-select">
     <option value=""  –</option>
-    <option value="Sound 1 (Bed. 2)">Sound 1</option>
-    <option value="Sound 2 (Bed. 2)">Sound 2</option>
-    <option value="Sound 3 (Bed. 1)">Sound 3</option>
-    <option value="Sound 4 (Bed. 1)">Sound 4</option>
+    <option value="1">Sound 1</option>
+    <option value="2">Sound 2</option>
+    <option value="3">Sound 3</option>
+    <option value="4">Sound 4</option>
   </select>
 
   <p>Auswahl sound 4</p>
   <select name="AuswahlSound4" id="AuswahlSound4" required class="condition-select">
     <option value=""  –</option>
-    <option value="Sound 1 (Bed. 2)">Sound 1</option>
-    <option value="Sound 2 (Bed. 2)">Sound 2</option>
-    <option value="Sound 3 (Bed. 1)">Sound 3</option>
-    <option value="Sound 4 (Bed. 1)">Sound 4</option>
+    <option value="1">Sound 1</option>
+    <option value="2">Sound 2</option>
+    <option value="3">Sound 3</option>
+    <option value="4">Sound 4</option>
   </select>
 </div>
     
@@ -61,6 +61,7 @@ const CBC_VPNNummer = {
     selected_rsound = responses["AuswahlSound3"];
     selected_fsound = responses["AuswahlSound4"];
     selectedCondition = responses["Wortliste"];
+    settingsDone = true;
   },
 };
 

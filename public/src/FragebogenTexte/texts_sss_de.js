@@ -1,5 +1,3 @@
-const cont_text = "weiter";
-
 const sss_prompt = `<b>Wie wach fühlst du dich jetzt gerade?</b><br> Die letzte Option dient nur der Orientierung und kann nicht angekreuzt werden.`;
 
 var sssOptions = [

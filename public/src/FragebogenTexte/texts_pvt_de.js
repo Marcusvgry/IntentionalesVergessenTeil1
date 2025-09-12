@@ -1,5 +1,4 @@
 // const cont_text = "weiter"; // Already defined in texts_demographics_de.js
-// const prev_text = "zurück"; // Already defined in texts_demographics_de.js
 
 // PVT timing constants
 const lapse_time = 10000; // 10 seconds in milliseconds

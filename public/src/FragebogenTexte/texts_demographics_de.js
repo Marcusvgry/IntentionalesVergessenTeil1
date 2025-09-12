@@ -1,5 +1,3 @@
-const cont_text = "weiter";
-
 const text_demographics = `
 <div class="questions">
 

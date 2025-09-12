@@ -16,6 +16,11 @@ var piano = new Audio(soundFiles.piano);
 var saxophon = new Audio(soundFiles.saxophon);
 var violine = new Audio(soundFiles.violine);
 
+var settingsDone = false;
+
+const cont_text = "Weiter";
+const prev_text = "zurück";
+
 // PVT
 
 const default_background = "#fff";

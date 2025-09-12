@@ -1,5 +1,3 @@
-const cont_text = "weiter";
-
 const meq_instr_text = `<div class="instructions">
     <p>Im folgenden werden dir ein paar Fragen zu deinem typischen Tagesrhythmus stellen.<br>
     Bitte lese jede Frage genau, bevor du sie beantwortest.<br>

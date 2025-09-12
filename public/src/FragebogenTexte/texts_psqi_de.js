@@ -1,5 +1,3 @@
-const cont_text = "weiter";
-
 const psqi_bed_warning =
   "Du scheinst morgens/tagsüber ins Bett zu gehen. Stelle sicher, dass es sich dabei nicht um einen Fehler handelt, bevor du deine Antwort abschickst.\n";
 const psqi_wake_up_warning =

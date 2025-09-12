@@ -6,6 +6,7 @@ const preloadSounds = {
     soundFiles.saxophon,
     soundFiles.violine,
   ],
+  show_progress_bar: false,
 };
 
 const freeRecallWoerter = {
