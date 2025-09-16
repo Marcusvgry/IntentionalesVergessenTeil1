@@ -15,18 +15,16 @@ const jsPsych = initJsPsych({
 
       const responses = vpnForm && vpnForm.response ? vpnForm.response : null;
 
-      if (responses && responses["VPN-Nummer"]) {
-        const vpnNumber = responses["VPN-Nummer"];
-        const filename = `IntentionalesVergessen1_VP${vpnNumber}.csv`;
+      if (responses && responses["Participant-ID"]) {
+        const vpnNumber = responses["Participant-ID"];
+        const filename = `DirFor1_VP${vpnNumber}.csv`;
         jsPsych.data.get().localSave("csv", filename);
       } else {
-        jsPsych.data
-          .get()
-          .localSave("csv", "IntentionalesVergessen1_NoVPN.csv");
+        jsPsych.data.get().localSave("csv", "DirFor1_NoVPN.csv");
       }
     } catch (error) {
       console.error("Error in on_finish:", error);
-      jsPsych.data.get().localSave("csv", "IntentionalesVergessen1_Error.csv");
+      jsPsych.data.get().localSave("csv", "DirFor1_Error.csv");
     }
   },
 });
@@ -62,6 +60,7 @@ const buildFromVPNTrial = {
       });
 
       const rest = [
+        demographics,
         preloadSounds,
         instructions,
         createLearningPhase(
@@ -136,11 +135,13 @@ const buildFromVPNTrial = {
 function createTimeline() {
   timeline.length = 0;
   timeline.push(
-    demographics,
     {
       ...CBC_VPNNummer,
       data: { ...(CBC_VPNNummer.data || {}), form_id: "vpn" },
     },
+    demographics_block
+    /*
     buildFromVPNTrial
+    */
   );
 }

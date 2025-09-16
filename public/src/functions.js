@@ -329,3 +329,148 @@ function startTimer() {
   // we don't want to wait a full second before the timer starts
   minutes = timer();
 }
+
+function matchTerm(answerRaw, termRaw) {
+  const ansStr = String(answerRaw ?? "").trim();
+  const numAns = toNum(answerRaw);
+  let term = String(termRaw ?? "").trim();
+  let negate = false;
+  if (term.startsWith("!")) {
+    negate = true;
+    term = term.slice(1).trim();
+  }
+
+  if (term.startsWith("/") && term.lastIndexOf("/") > 0) {
+    const last = term.lastIndexOf("/");
+    const re = new RegExp(term.slice(1, last), term.slice(last + 1) || "i");
+    const ok = re.test(ansStr);
+    return negate ? !ok : ok;
+  }
+
+  if (
+    (term.startsWith("*") && term.endsWith("*") && term.length > 2) ||
+    term.startsWith("~")
+  ) {
+    const sub = term.startsWith("~") ? term.slice(1) : term.slice(1, -1);
+    const ok = ansStr.toLowerCase().includes(String(sub).toLowerCase());
+    return negate ? !ok : ok;
+  }
+
+  const m = term.match(/^(<=|>=|<|>|==|=|!=)\s*(.+)$/);
+  if (m) {
+    const [, op, rhsRaw] = m;
+    const rhsNum = toNum(rhsRaw);
+    const aNum = numAns;
+    const aStr = ansStr.toLowerCase();
+    const bStr = String(rhsRaw).trim().toLowerCase();
+    let ok;
+    if (!Number.isNaN(rhsNum) && !Number.isNaN(aNum)) {
+      ok =
+        op === "<"
+          ? aNum < rhsNum
+          : op === "<="
+          ? aNum <= rhsNum
+          : op === ">"
+          ? aNum > rhsNum
+          : op === ">="
+          ? aNum >= rhsNum
+          : op === "!="
+          ? aNum !== rhsNum
+          : aNum === rhsNum;
+    } else {
+      ok = op === "!=" ? aStr !== bStr : aStr === bStr;
+    }
+    return negate ? !ok : ok;
+  }
+
+  if (term.includes(",")) {
+    const set = term
+      .split(",")
+      .map((s) => s.trim().toLowerCase())
+      .filter(Boolean);
+    const ok = set.includes(ansStr.toLowerCase());
+    return negate ? !ok : ok;
+  }
+
+  const ok = ansStr.toLowerCase() === term.toLowerCase();
+  return negate ? !ok : ok;
+}
+
+function matchesCriterion(answer, criterion) {
+  if (criterion == null) return false;
+  const crit = String(criterion).trim();
+  if (!crit) return false;
+  return crit
+    .split("|")
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .some((group) =>
+      group
+        .split("&")
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .every((t) => matchTerm(answer, t))
+    );
+}
+
+function evaluateExclusions(participantData, exclusionCriteria, softHardMap) {
+  const items = [];
+  let hasHard = false;
+
+  for (const [name, criterion] of Object.entries(exclusionCriteria)) {
+    const severity = softHardMap[name]; // "hard" | "soft" | undefined
+    if (!severity || String(criterion).trim() === "") continue;
+
+    const answer = participantData[name];
+    if (matchesCriterion(answer, criterion)) {
+      items.push({ name, answer, severity, criterion: String(criterion) });
+      if (severity === "hard") hasHard = true;
+    }
+  }
+  return { isExcludedHard: hasHard, items };
+}
+
+function getLabelFromP(p) {
+  if (!p) return "";
+  const clone = p.cloneNode(true);
+  clone
+    .querySelectorAll("input,select,textarea,div")
+    .forEach((n) => n.remove());
+  return clone.textContent
+    .replace(/\s+/g, " ")
+    .trim()
+    .replace(/[:：]\s*$/, "");
+}
+
+function prefillAndMark(html, data, items) {
+  const wrap = document.createElement("div");
+  wrap.innerHTML = html;
+
+  Object.entries(data || {}).forEach(([name, val]) => {
+    wrap.querySelectorAll(`[name="${CSS.escape(name)}"]`).forEach((el) => {
+      if (el.tagName === "SELECT") el.value = val ?? "";
+      else if (el.tagName === "TEXTAREA") el.value = val ?? "";
+      else el.value = val ?? "";
+    });
+  });
+
+  const byName = new Map(items.map((it) => [it.name, it]));
+  byName.forEach((it, name) => {
+    const el = wrap.querySelector(`[name="${CSS.escape(name)}"]`);
+    const p = el ? el.closest("p") || el.parentElement : null;
+    if (p) p.classList.add(it.severity === "hard" ? "flag-hard" : "flag-soft");
+  });
+
+  items.forEach((it) => {
+    const el = wrap.querySelector(`[name="${CSS.escape(it.name)}"]`);
+    const p = el ? el.closest("p") || el.parentElement : null;
+    it.label = getLabelFromP(p) || it.name;
+  });
+
+  const styles = `<style>
+    .flag-hard{border-left:6px solid #d32f2f;background:#ffebee;padding-left:.75rem}
+    .flag-soft{border-left:6px solid #f57c00;background:#fff3e0;padding-left:.75rem}
+  </style>`;
+
+  return styles + wrap.innerHTML;
+}

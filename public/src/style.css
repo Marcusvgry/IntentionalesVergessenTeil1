@@ -78,14 +78,12 @@ body {
   background: #f5f5f5;
 }
 
-/* statt #4caf50 (Blau) nimm z.B. #4caf50 (Grün) */
 .condition-radio input[type="radio"]:checked + .condition-label {
   background: #4caf50;
   color: #ffffff;
   border-color: #4caf50;
 }
 
-/* Dropdowns für Reaktivierter Ton */
 .condition-select {
   width: 100%;
   max-width: 280px;

@@ -1,13 +1,85 @@
-var demographics = {
+const demographics_trial = {
   type: jsPsychSurveyHtmlForm,
-  html: () => text_demographics,
-
-  button_label: () => cont_text,
-  data: { trial: "demographics" },
-
+  html: text_demographics, // dein HTML-String (s. Abschnitt 3)
+  button_label: "Weiter",
   on_finish: function (data) {
-    // Needs to be stringified, because arrays cannot be saved in a .csv file.
-    data.response = JSON.stringify(data.response);
+    const resp = data.response;
+
+    const details = evaluateExclusions(
+      resp,
+      EXCLUSION_CONFIG.exclusionCriteria,
+      EXCLUSION_CONFIG.softHardMap
+    );
+
+    data.isExcludedHard = details.isExcludedHard;
+    data.exclusionItems = details.items;
+    data.markedFormHtml = prefillAndMark(
+      text_demographics,
+      resp,
+      details.items
+    );
+  },
+};
+
+const exclusion_screen = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: function () {
+    const last = jsPsych.data.get().last(1).values()[0];
+    const items = last.exclusionItems || [];
+
+    const list = items
+      .map((it) => {
+        const cls = it.severity === "hard" ? "flag-hard" : "flag-soft";
+        return `<li class="${cls}"><b>${it.name}</b> — <i>${
+          it.answer ?? "—"
+        }</i>
+              <small style="opacity:.7;margin-left:.4rem">Regel: ${
+                it.criterion
+              }</small></li>`;
+      })
+      .join("");
+
+    return `
+      <h2>Bitte wenden Sie sich nun an die Versuchsleitung</h2>
+    `;
+  },
+  choices: ["Zurück"],
+};
+
+const demographics_retry = {
+  type: jsPsychSurveyHtmlForm,
+  html: function () {
+    const last = jsPsych.data
+      .get()
+      .filter({ trial_type: "survey-html-form" })
+      .last(1)
+      .values()[0];
+    return last.markedFormHtml || text_demographics;
+  },
+  button_label: "Erneut prüfen",
+  on_finish: demographics_trial.on_finish,
+};
+
+// 2.4 Block mit Wiederholung solange harter Ausschluss
+const demographics_block = {
+  timeline: [
+    demographics_trial,
+    {
+      timeline: [exclusion_screen, demographics_retry],
+      conditional_function: function () {
+        const last = jsPsych.data.get().last(1).values()[0];
+        return !!last.isExcludedHard; // nur wenn harter Ausschluss
+      },
+    },
+  ],
+  loop_function: function () {
+    // Wiederholen bis kein harter Ausschluss mehr vorliegt
+    const lastSurvey = jsPsych.data
+      .get()
+      .filter({ trial_type: "survey-html-form" })
+      .last(1)
+      .values()[0];
+    return !!lastSurvey?.isExcludedHard;
   },
 };
 

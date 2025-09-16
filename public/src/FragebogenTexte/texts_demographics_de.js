@@ -2,15 +2,6 @@ const text_demographics = `
 <div class="questions">
 
   <fieldset>
-    <legend><b>Allgemeine Informationen</b></legend>
-    <p><b>Was ist die Participant ID?:</b> <input class="large-input" name="participant_id" type="text"></p>
-    <p><b>Was ist das heutige Datum?:</b> <input class="large-input" name="current_date" type="date"></p>
-    <p><b>Wer ist die Messperson heute?:</b> <input class="large-input" name="examiner_name" type="text"></p>
-  </fieldset>
-
-  <hr>
-
-  <fieldset>
     <legend><b>Demografische Angaben</b></legend>
     <p>Wann ist Ihr Geburtsdatum?: <input class="large-input" name="birthdate" type="date"></p>
     <p>Wie alt sind Sie?: <input class="large-input" name="age" type="number" min="18" max="100">

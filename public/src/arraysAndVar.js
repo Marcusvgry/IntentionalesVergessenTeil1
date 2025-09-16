@@ -55,3 +55,61 @@ let psqi_components = {
   PSQISLPQUAL: null,
   PSQIMEDS: null,
 };
+
+const EXCLUSION_CONFIG = {
+  exclusionCriteria: {
+    // Demografie
+    age: "<18|>35",
+
+    // Lebenssituation (braucht Rücksprache/VL)
+    living_situation: "betreut|heim|jva|wohnungslos",
+
+    // Sprache
+    fluency: "=no",
+
+    // Zyklus/Schwangerschaft
+    pregnancy: "ja",
+
+    // Substanzen heute/gestern
+    drugs_today:
+      "ja|/\\b(thc|cannabis|cocaine|kokain|mdma|amphet|opiat|benzodiazepin|z-?drug|ketamin)\\b/i",
+    alcohol_today: "ja",
+    alcohol_yesterday: "ja", // optional nur soft (s.u.)
+    smoking_today: "ja", // i.d.R. soft; harte Rule z.B. späte Uhrzeit
+    caffeine_time: "/^(1[6-9]|2[0-3]):/", // Koffein nach 16:00 (24h), harte Zeitnähe
+
+    // Medikamente (psychoaktiv/schlafwirksam)
+    medication_what:
+      "/(ssri|snri|trizykl|tca|maoi|mirtaz|buprop|antipsych|neurolept|benzodiaz|zopiclone?|zolpidem|pregabalin|gabapentin|modafinil|methylphenidat|atomoxetin|beta.?block)/i",
+    medication_today: "ja", // markiert „Medis aktuell“ (Details s.o.)
+
+    // Schlaf / Tagesrhythmus
+    wake_time: "/^(1[2-9]|2[0-3]):/", // Aufstehen ≥12:00 → eher ungünstig
+    sleep_quality: "1|2", // sehr/ziemlich schlecht
+    sleep_change: "ja",
+    recent_stress: "ja",
+
+    // (falls rechtshändig benötigt)
+    handedness: "links|beid",
+  },
+  softHardMap: {
+    age: "hard",
+    living_situation: "hard",
+    fluency: "hard",
+    pregnancy: "hard",
+    drugs_today: "hard",
+    alcohol_today: "hard",
+    alcohol_yesterday: "soft",
+    smoking_today: "soft",
+    caffeine_time: "hard",
+    medication_what: "hard",
+    medication_today: "soft",
+    wake_time: "soft",
+    sleep_quality: "soft",
+    sleep_change: "soft",
+    recent_stress: "soft",
+    handedness: "soft",
+  },
+};
+
+const toNum = (v) => Number(String(v ?? "").replace(",", "."));
