@@ -176,31 +176,31 @@ function createLearningPhase(
           const sound = jsPsych.evaluateTimelineVariable("sound");
           switch (sound) {
             case "1":
-              piano.play();
+              sound1.play();
               setTimeout(function () {
-                piano.pause();
-                piano.currentTime = 0;
+                sound1.pause();
+                sound1.currentTime = 0;
               }, 1000);
               break;
             case "2":
-              saxophon.play();
+              sound2.play();
               setTimeout(function () {
-                saxophon.pause();
-                saxophon.currentTime = 0;
+                sound2.pause();
+                sound2.currentTime = 0;
               }, 1000);
               break;
             case "3":
-              guitar.play();
+              sound3.play();
               setTimeout(function () {
-                guitar.pause();
-                guitar.currentTime = 0;
+                sound3.pause();
+                sound3.currentTime = 0;
               }, 1000);
               break;
             case "4":
-              violine.play();
+              sound4.play();
               setTimeout(function () {
-                violine.pause();
-                violine.currentTime = 0;
+                sound4.pause();
+                sound4.currentTime = 0;
               }, 1000);
               break;
           }

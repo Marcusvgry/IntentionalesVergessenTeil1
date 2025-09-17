@@ -5,16 +5,18 @@ var listToRemember,
   selected_fsound;
 
 const soundFiles = {
-  guitar: "../sounds/guitar.mp3",
-  piano: "../sounds/piano.mp3",
-  saxophon: "../sounds/saxophon.mp3",
-  violine: "../sounds/violine.mp3",
+  sound1: "../sound/tone_A4_440Hz_1s.wav",
+  sound2: "../sounds/tone_A5_880Hz_1s.wav",
+  sound3: "../sounds/tone_C#5_554.37Hz_1s.wav",
+  sound4: "../sounds/tone_C6_1046.50Hz_1s.wav",
+  unrelated: "../sounds/tone_E5_659.26Hz_1s.wav",
 };
 
-var guitar = new Audio(soundFiles.guitar);
-var piano = new Audio(soundFiles.piano);
-var saxophon = new Audio(soundFiles.saxophon);
-var violine = new Audio(soundFiles.violine);
+var sound1 = new Audio(soundFiles.sound1);
+var sound2 = new Audio(soundFiles.sound2);
+var sound3 = new Audio(soundFiles.sound3);
+var sound4 = new Audio(soundFiles.sound4);
+var unrelated = new Audio(soundFiles.unrelated);
 
 var settingsDone = false;
 

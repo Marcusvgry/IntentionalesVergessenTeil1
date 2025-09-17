@@ -60,7 +60,7 @@ const buildFromVPNTrial = {
       });
 
       const rest = [
-        demographics,
+        //demographics_block,
         preloadSounds,
         instructions,
         createLearningPhase(
@@ -139,9 +139,9 @@ function createTimeline() {
       ...CBC_VPNNummer,
       data: { ...(CBC_VPNNummer.data || {}), form_id: "vpn" },
     },
-    demographics_block
     /*
-    buildFromVPNTrial
+    demographics_block
     */
+    buildFromVPNTrial
   );
 }
