@@ -448,29 +448,29 @@ function prefillAndMark(html, data, items) {
 
   Object.entries(data || {}).forEach(([name, val]) => {
     wrap.querySelectorAll(`[name="${CSS.escape(name)}"]`).forEach((el) => {
-      if (el.tagName === "SELECT") el.value = val ?? "";
-      else if (el.tagName === "TEXTAREA") el.value = val ?? "";
-      else el.value = val ?? "";
+      const tag = el.tagName.toLowerCase();
+      const type = (el.getAttribute("type") || "").toLowerCase();
+
+      if (tag === "select") {
+        el.querySelectorAll("option").forEach((opt) => {
+          if (opt.value === String(val ?? "")) opt.setAttribute("selected", "");
+          else opt.removeAttribute("selected");
+        });
+      } else if (tag === "textarea") {
+        // textarea-Wert ist der Textknoten
+        el.textContent = val ?? "";
+      } else if (type === "checkbox" || type === "radio") {
+        const checked = Array.isArray(val)
+          ? val.includes(el.value)
+          : String(val) === String(el.value) ||
+            (type === "checkbox" && (val === true || val === "on"));
+        if (checked) el.setAttribute("checked", "");
+        else el.removeAttribute("checked");
+      } else {
+        // input (text|number|date|time|…) – value-Attribut setzen
+        if (val == null || val === "") el.removeAttribute("value");
+        else el.setAttribute("value", String(val));
+      }
     });
   });
-
-  const byName = new Map(items.map((it) => [it.name, it]));
-  byName.forEach((it, name) => {
-    const el = wrap.querySelector(`[name="${CSS.escape(name)}"]`);
-    const p = el ? el.closest("p") || el.parentElement : null;
-    if (p) p.classList.add(it.severity === "hard" ? "flag-hard" : "flag-soft");
-  });
-
-  items.forEach((it) => {
-    const el = wrap.querySelector(`[name="${CSS.escape(it.name)}"]`);
-    const p = el ? el.closest("p") || el.parentElement : null;
-    it.label = getLabelFromP(p) || it.name;
-  });
-
-  const styles = `<style>
-    .flag-hard{border-left:6px solid #d32f2f;background:#ffebee;padding-left:.75rem}
-    .flag-soft{border-left:6px solid #f57c00;background:#fff3e0;padding-left:.75rem}
-  </style>`;
-
-  return styles + wrap.innerHTML;
 }

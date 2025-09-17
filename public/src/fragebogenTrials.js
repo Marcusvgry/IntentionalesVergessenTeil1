@@ -1,18 +1,17 @@
 const demographics_trial = {
   type: jsPsychSurveyHtmlForm,
-  html: text_demographics, // dein HTML-String (s. Abschnitt 3)
-  button_label: "Weiter",
+  html: text_demographics,
+  button_label: "Prüfen & weiter",
   on_finish: function (data) {
     const resp = data.response;
-
     const details = evaluateExclusions(
       resp,
       EXCLUSION_CONFIG.exclusionCriteria,
       EXCLUSION_CONFIG.softHardMap
     );
-
     data.isExcludedHard = details.isExcludedHard;
     data.exclusionItems = details.items;
+    // HIER die neue Funktion einsetzen:
     data.markedFormHtml = prefillAndMark(
       text_demographics,
       resp,
