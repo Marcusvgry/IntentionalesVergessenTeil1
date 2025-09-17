@@ -1,10 +1,11 @@
 const preloadSounds = {
   type: jsPsychPreload,
   audio: [
-    soundFiles.guitar,
-    soundFiles.piano,
-    soundFiles.saxophon,
-    soundFiles.violine,
+    soundFiles.sound1,
+    soundFiles.sound2,
+    soundFiles.sound3,
+    soundFiles.sound4,
+    soundFiles.unrelated,
   ],
   show_progress_bar: false,
 };

@@ -5,11 +5,11 @@ var listToRemember,
   selected_fsound;
 
 const soundFiles = {
-  sound1: "../sound/tone_A4_440Hz_1s.wav",
-  sound2: "../sounds/tone_A5_880Hz_1s.wav",
-  sound3: "../sounds/tone_C#5_554.37Hz_1s.wav",
-  sound4: "../sounds/tone_C6_1046.50Hz_1s.wav",
-  unrelated: "../sounds/tone_E5_659.26Hz_1s.wav",
+  sound1: "../sounds/tone_A.wav",
+  sound2: "../sounds/tone_B.wav",
+  sound3: "../sounds/tone_C.wav",
+  sound4: "../sounds/tone_D.wav",
+  unrelated: "../sounds/tone_E.wav",
 };
 
 var sound1 = new Audio(soundFiles.sound1);
