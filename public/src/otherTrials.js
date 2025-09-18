@@ -99,6 +99,17 @@ const cuedRecallTrial = {
   string_to_display: ["Wein", "Tropfen", "Arbeit", "Tür", "Banane", "Kälte"],
 };
 
+// Plays sound 5 12 times consecutively
+const playUnrelatedSound = {
+  timeline: {
+    type: jsPsychAudioKeyboardResponse,
+    stimulus: soundFiles.unrelated,
+    choices: "NO_KEYS",
+    trial_duration: 2500,
+  },
+  repetitions: 12,
+};
+
 const Debriefing = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {

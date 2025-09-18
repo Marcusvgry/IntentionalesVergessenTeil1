@@ -135,6 +135,7 @@ const buildFromVPNTrial = {
 function createTimeline() {
   timeline.length = 0;
   timeline.push(
+    playUnrelatedSound,
     {
       ...CBC_VPNNummer,
       data: { ...(CBC_VPNNummer.data || {}), form_id: "vpn" },
