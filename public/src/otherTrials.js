@@ -100,13 +100,16 @@ const cuedRecallTrial = {
 };
 
 // Plays sound 5 12 times consecutively
+
 const playUnrelatedSound = {
-  timeline: {
-    type: jsPsychAudioKeyboardResponse,
-    stimulus: soundFiles.unrelated,
-    choices: "NO_KEYS",
-    trial_duration: 2500,
-  },
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: soundFiles.unrelated,
+  choices: "NO_KEYS",
+  trial_duration: 2500,
+};
+
+const playUnrelatedSoundTimeline = {
+  timeline: [playUnrelatedSound],
   repetitions: 12,
 };
 

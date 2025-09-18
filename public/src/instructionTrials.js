@@ -80,6 +80,20 @@ const instructions_5 = {
   allow_backward: false,
 };
 
+const instructions_unrelatedSound = {
+  type: jsPsychInstructions,
+  pages: [
+    `<div class="instructions">
+        <p>Bevor Sie mit der eigentlichen Lernphase beginnen, werden wir Ihnen noch einen weiteren Ton mehrmals hintereinander abspielen.</p>
+        <p>Dieser Ton ist neu und besitzt für die anschließende Aufgabe keine Bedeutung. Das bedeutet, dass die Töne, die Sie in der Lernphase hören, dieselben sind wie bei den Übungsdurchgängen.</p>
+        <p>Während der Ton abgespielt wird, müssen Sie keine zusätzliche Aufgabe erledigen. Bitte hören Sie trotzdem aufmerksam zu.</p>
+      </div>`,
+  ],
+  show_clickable_nav: true,
+  button_label_next: "Beginnen",
+  allow_backward: false,
+};
+
 const instructions_6 = {
   type: jsPsychInstructions,
   pages: [

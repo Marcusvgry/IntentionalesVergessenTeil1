@@ -87,6 +87,8 @@ const buildFromVPNTrial = {
         freeRecallWoerter,
         instructions_5,
         cuedRecallTrial,
+        instructions_unrelatedSound,
+        playUnrelatedSoundTimeline,
         instructions_6,
         createLearningPhase(
           wordList,
@@ -135,7 +137,7 @@ const buildFromVPNTrial = {
 function createTimeline() {
   timeline.length = 0;
   timeline.push(
-    playUnrelatedSound,
+    testInstructions,
     {
       ...CBC_VPNNummer,
       data: { ...(CBC_VPNNummer.data || {}), form_id: "vpn" },
