@@ -104,6 +104,7 @@ const cuedRecallTrial = {
 const playUnrelatedSound = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: soundFiles.unrelated,
+  prompt: '<div style="font-size: 60px;">+</div>',
   choices: "NO_KEYS",
   trial_duration: 2500,
 };
