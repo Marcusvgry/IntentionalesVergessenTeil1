@@ -2,22 +2,24 @@ var listToRemember,
   selected_tmrsound,
   selected_tmfsound,
   selected_rsound,
-  selected_fsound;
+  selected_fsound,
+  selected_sound5;
 
 const soundFiles = {
   sound1: "../sounds/tone_A.wav",
   sound2: "../sounds/tone_B.wav",
   sound3: "../sounds/tone_C.wav",
   sound4: "../sounds/tone_D.wav",
-  unrelated: "../sounds/tone_E.wav",
+  sound5: "../sounds/tone_E.wav",
 };
+
+selected_sound5 = soundFiles.sound5;
 
 var sound1 = new Audio(soundFiles.sound1);
 var sound2 = new Audio(soundFiles.sound2);
 var sound3 = new Audio(soundFiles.sound3);
 var sound4 = new Audio(soundFiles.sound4);
-var unrelated = new Audio(soundFiles.unrelated);
-
+var sound5 = new Audio(soundFiles.sound5);
 var settingsDone = false;
 
 const cont_text = "Weiter";

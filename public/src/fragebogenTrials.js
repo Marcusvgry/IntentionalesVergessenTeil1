@@ -1,7 +1,10 @@
-const demographics_trial = {
+﻿const demographics_trial = {
   type: jsPsychSurveyHtmlForm,
   html: text_demographics,
-  button_label: "Prüfen & weiter",
+  button_label: "Weiter",
+  on_load: function () {
+    enforceDemographicsRequired();
+  },
   on_finish: function (data) {
     const resp = data.response;
     const details = evaluateExclusions(
@@ -23,28 +26,22 @@ const demographics_trial = {
 const exclusion_screen = {
   type: jsPsychHtmlButtonResponse,
   stimulus: function () {
-    const last = jsPsych.data.get().last(1).values()[0];
+    const last = jsPsych.data.get().last(1).values()[0] || {};
     const items = last.exclusionItems || [];
 
-    const list = items
-      .map((it) => {
-        const cls = it.severity === "hard" ? "flag-hard" : "flag-soft";
-        return `<li class="${cls}"><b>${it.name}</b> — <i>${
-          it.answer ?? "—"
-        }</i>
-              <small style="opacity:.7;margin-left:.4rem">Regel: ${
-                it.criterion
-              }</small></li>`;
-      })
-      .join("");
+    if (!items.length) {
+      return `<div class="instructions"><p>Alle Angaben wurden akzeptiert.</p></div>`;
+    }
 
-    return `
-      <h2>Bitte wenden Sie sich nun an die Versuchsleitung</h2>
-    `;
+    const hasHard = items.some((it) => it.severity === "hard");
+    const message = hasHard
+      ? "Bitte wenden Sie sich nun an die Versuchsleitung."
+      : "Bitte wenden Sie sich nun an die Versuchsleitung.";
+
+    return `<div class="instructions"><p>${message}</p></div>`;
   },
   choices: ["Zurück"],
 };
-
 const demographics_retry = {
   type: jsPsychSurveyHtmlForm,
   html: function () {
@@ -55,8 +52,25 @@ const demographics_retry = {
       .values()[0];
     return last.markedFormHtml || text_demographics;
   },
-  button_label: "Erneut prüfen",
+  button_label: "Weiter",
+  on_load: function () {
+    enforceDemographicsRequired();
+  },
   on_finish: demographics_trial.on_finish,
+};
+
+const demographics_flagged_review = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: function () {
+    const last = jsPsych.data
+      .get()
+      .filter({ trial_type: "survey-html-form" })
+      .last(1)
+      .values()[0];
+    const reviewHtml = last?.markedFormHtml || text_demographics;
+    return `<div class="demographics-review">${reviewHtml}</div>`;
+  },
+  choices: ["Weiter"],
 };
 
 // 2.4 Block mit Wiederholung solange harter Ausschluss
@@ -64,10 +78,27 @@ const demographics_block = {
   timeline: [
     demographics_trial,
     {
-      timeline: [exclusion_screen, demographics_retry],
+      timeline: [exclusion_screen, demographics_flagged_review],
       conditional_function: function () {
-        const last = jsPsych.data.get().last(1).values()[0];
-        return !!last.isExcludedHard; // nur wenn harter Ausschluss
+        const lastSurvey = jsPsych.data
+          .get()
+          .filter({ trial_type: "survey-html-form" })
+          .last(1)
+          .values()[0];
+        return Array.isArray(lastSurvey?.exclusionItems)
+          ? lastSurvey.exclusionItems.length > 0
+          : false;
+      },
+    },
+    {
+      timeline: [demographics_retry],
+      conditional_function: function () {
+        const lastSurvey = jsPsych.data
+          .get()
+          .filter({ trial_type: "survey-html-form" })
+          .last(1)
+          .values()[0];
+        return !!lastSurvey?.isExcludedHard; // nur wenn harter Ausschluss
       },
     },
   ],
@@ -81,7 +112,6 @@ const demographics_block = {
     return !!lastSurvey?.isExcludedHard;
   },
 };
-
 // PVT -----------------------------------------------------------------------------------------------
 
 var pvt_fixation = {
@@ -510,7 +540,7 @@ var pittsburgh1 = {
       Diffsec = Diffsec = Difference in seconds between times for Bed Time (Q1) and 
       Getting Up Time (Q3).
       Diffhour = Absolute value of diffsec / 3600 
-      newtib =IF diffhour > 24, then newtib = diffhour – 24 
+      newtib =IF diffhour > 24, then newtib = diffhour â€“ 24 
       IF diffhour < 24, THEN newtib = diffhour 
       (NOTE, THE ABOVE JUST CALCULATES THE HOURS BETWEEN BED 
       TIME (Q1) AND GETTING UP TIME (Q3)

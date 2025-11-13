@@ -94,8 +94,13 @@ const CBC_VPNNummer = {
     selected_tmfsound = responses["AuswahlSound2"];
     selected_rsound = responses["AuswahlSound3"];
     selected_fsound = responses["AuswahlSound4"];
-    selected_unrelatedSound = responses["AuswahlSound5"];
+    const selectedSound5Selection = responses["AuswahlSound5"];
+    selectedSound5 =
+      soundFiles[`sound${selectedSound5Selection}`] || soundFiles.sound5;
+
     selectedCondition = responses["Wortliste"];
+    confidenceCheckTonesTimeline.timeline_variables =
+      buildConfidenceToneTimelineVariables();
     settingsDone = true;
   },
 };
@@ -120,10 +125,13 @@ const cuedRecallTrial = {
 
 const playUnrelatedSound = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: selected_unrelatedSound,
+  stimulus: selectedSound5,
   prompt: '<div style="font-size: 60px;">+</div>',
   choices: "NO_KEYS",
   trial_duration: 2500,
+  on_start: function (trial) {
+    trial.stimulus = selectedSound5;
+  },
 };
 
 const playUnrelatedSoundTimeline = {
@@ -131,40 +139,127 @@ const playUnrelatedSoundTimeline = {
   repetitions: 12,
 };
 
-let toneNumber = 2;
+const buildConfidenceToneTimelineVariables = () => [
+  { tone_id: selected_tmrsound, number: 1 },
+  { tone_id: selected_tmfsound, number: 2 },
+  { tone_id: selected_rsound, number: 3 },
+  { tone_id: selected_fsound, number: 4 },
+];
 
+const resolveToneSelectionToAudio = (toneVar) => {
+  const createAudioFromKey = (key) => {
+    if (!key || !soundFiles || !soundFiles[key]) {
+      return null;
+    }
+    return new Audio(soundFiles[key]);
+  };
+
+  if (toneVar instanceof HTMLAudioElement) {
+    return toneVar;
+  }
+
+  if (typeof toneVar === "number" && Number.isFinite(toneVar)) {
+    return createAudioFromKey(`sound${toneVar}`);
+  }
+
+  if (typeof toneVar === "string") {
+    const trimmed = toneVar.trim();
+    if (!trimmed) {
+      return null;
+    }
+
+    if (/\.(wav|mp3|ogg)$/i.test(trimmed)) {
+      return new Audio(trimmed);
+    }
+
+    const lower = trimmed.toLowerCase();
+    if (soundFiles && soundFiles[lower]) {
+      return new Audio(soundFiles[lower]);
+    }
+
+    const numericMatch = lower.match(/^sound\s*(\d)$/) || lower.match(/^(\d)$/);
+    if (numericMatch) {
+      return createAudioFromKey(`sound${numericMatch[1]}`);
+    }
+  }
+
+  return null;
+};
+
+// Trial für Confidence Check mit Ton
+// Trial für Confidence Check mit Ton
 const confidenceCheckTones = {
   type: jsPsychHtmlSliderResponse,
   stimulus: function () {
-    return `<div class="instructions">
-  Wurde dieser Ton zusammen mit Wörtern abgespielt, die sie erinnern oder vergessen sollten? 
-  <select name="Tone" id="ListTone_${jsPsych.timelineVariable(
-    "number"
-  )}" required class="condition-select">
-    <option value=""  –</option>
-    <option value="1">Erinnern</option>
-    <option value="2">Vergessen</option>
-  </select>
-  <br />
-  Wie sicher sind Sie sich?
-  </div>`;
+    return `
+      <div class="instructions">
+        <p>Wurde dieser Ton zusammen mit Wörtern abgespielt, die Sie erinnern oder vergessen sollten? Mit "Ton abspielen" können Sie sich den Ton erneut anhören, mit "Weiter" bestätigen Sie Ihre Antwort.</p>
+        <select name="Tone" id="ListTone_${jsPsych.evaluateTimelineVariable(
+          "number"
+        )}" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Erinnern</option>
+          <option value="2">Vergessen</option>
+        </select>
+        <br />
+        <p>Wie sicher sind Sie sich?</p>
+      </div>
+    `;
   },
   labels: ["Sehr unsicher", "Sehr sicher"],
-  on_start: function () {
-    let toneFile = jsPsych.timelineVariable("tone");
-    jsPsych.pluginAPI.playAudio(toneFile);
+  button_label: "Weiter",
+  prompt: `
+    <div class="tone-controls">
+      <button type="button" id="play-tone-btn" class="jspsych-btn secondary-btn">
+        Ton abspielen
+      </button>
+    </div>
+  `,
+  on_load: function () {
+    const toneVar = jsPsych.evaluateTimelineVariable("tone_id");
+    console.log("tone_id in this trial:", toneVar, "typeof:", typeof toneVar);
+
+    let audio = resolveToneSelectionToAudio(toneVar);
+    if (audio) {
+      console.log("Resolved tone selection to audio element:", audio);
+    } else {
+      const elementId = `audio-${toneVar}`;
+      audio = document.getElementById(elementId);
+      console.log("Trying DOM audio element with id:", elementId, audio);
+    }
+
+    const playTone = () => {
+      if (!audio || typeof audio.play !== "function") {
+        console.error("Audio element not found or not playable:", audio);
+        return;
+      }
+
+      // Zur Sicherheit zurücksetzen und dann abspielen
+      if (typeof audio.pause === "function") {
+        audio.pause();
+      }
+      audio.currentTime = 0;
+
+      audio.play().catch((err) => {
+        console.error("Tone playback error:", err);
+      });
+    };
+
+    const playBtn = document.getElementById("play-tone-btn");
+    if (playBtn) {
+      playBtn.addEventListener("click", playTone);
+    }
+
+    // Beim Laden des Trials direkt einmal abspielen
+    playTone();
   },
 };
 
+// Timeline für alle Confidence-Ton-Trials
 const confidenceCheckTonesTimeline = {
   timeline: [confidenceCheckTones],
-  timeline_variables: [
-    { tone: selected_tmrsound, number: 1 },
-    { tone: selected_tmfsound, number: 2 },
-    { tone: selected_rsound, number: 3 },
-    { tone: selected_fsound, number: 4 },
-  ],
-  randomize_order: true,
+  timeline_variables: buildConfidenceToneTimelineVariables(),
+  randomize_order: false,
 };
 
 const Debriefing = {

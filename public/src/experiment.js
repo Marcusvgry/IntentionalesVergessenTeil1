@@ -1,37 +1,43 @@
-// --- jsPsych init & Datenspeicherung am Ende ---
 var timeline = [];
+var dataAlreadySaved = false;
+
+function saveExperimentData(filenameSuffix = "") {
+  if (dataAlreadySaved) return;
+  const suffix = filenameSuffix || "";
+
+  try {
+    const vpnForm =
+      jsPsych.data.get().filter({ form_id: "vpn" }).last(1).values()[0] ||
+      jsPsych.data
+        .get()
+        .filter({ trial_type: "survey-html-form" })
+        .first(1)
+        .values()[0];
+
+    const responses = vpnForm && vpnForm.response ? vpnForm.response : null;
+    const hasVpn = responses && responses["Participant-ID"];
+    const baseName = hasVpn
+      ? `DirFor1_VP${responses["Participant-ID"]}`
+      : "DirFor1_NoVPN";
+    const filename = `${baseName}${suffix}.csv`;
+    jsPsych.data.get().localSave("csv", filename);
+  } catch (error) {
+    console.error("Error while saving data:", error);
+    jsPsych.data.get().localSave("csv", `DirFor1_Error${suffix}.csv`);
+  } finally {
+    dataAlreadySaved = true;
+  }
+}
 
 const jsPsych = initJsPsych({
   use_webaudio: false,
   on_finish: function () {
-    try {
-      const vpnForm =
-        jsPsych.data.get().filter({ form_id: "vpn" }).last(1).values()[0] ||
-        jsPsych.data
-          .get()
-          .filter({ trial_type: "survey-html-form" })
-          .first(1)
-          .values()[0];
-
-      const responses = vpnForm && vpnForm.response ? vpnForm.response : null;
-
-      if (responses && responses["Participant-ID"]) {
-        const vpnNumber = responses["Participant-ID"];
-        const filename = `DirFor1_VP${vpnNumber}.csv`;
-        jsPsych.data.get().localSave("csv", filename);
-      } else {
-        jsPsych.data.get().localSave("csv", "DirFor1_NoVPN.csv");
-      }
-    } catch (error) {
-      console.error("Error in on_finish:", error);
-      jsPsych.data.get().localSave("csv", "DirFor1_Error.csv");
-    }
+    saveExperimentData();
   },
 });
 
-// --- Baut den Rest NACH dem VPN-Trial an ---
 const buildFromVPNTrial = {
-  type: jsPsychCallFunction, // bei ESM: type: callFunction
+  type: jsPsychCallFunction,
   async: true,
   func: (done) => {
     const proceed = () => {
@@ -90,6 +96,7 @@ const buildFromVPNTrial = {
         instructions_unrelatedSound,
         playUnrelatedSoundTimeline,
         instructions_6,
+
         createLearningPhase(
           wordList,
           listToRemember,
@@ -99,6 +106,7 @@ const buildFromVPNTrial = {
           selected_fsound,
           true
         ),
+        confidenceCheckTonesTimeline,
         pvt_start_screen,
         pvt_practice_outer,
         pvt_main_instructions,
@@ -116,10 +124,9 @@ const buildFromVPNTrial = {
         Debriefing,
       ];
 
-      // *** FIX FÜR v8: statt jsPsych.addNodeToEndOfTimeline(...) ***
-      timeline.push(...rest); // oder: timeline.push(rest) für einen verschachtelten Block
+      timeline.push(...rest);
 
-      done(); // beendet den call-function-Trial
+      done();
     };
 
     if (settingsDone && typeof settingsDone.then === "function") {
@@ -133,18 +140,14 @@ const buildFromVPNTrial = {
   },
 };
 
-// --- Starte mit fixen ersten Schritten; der Rest kommt dynamisch danach ---
 function createTimeline() {
   timeline.length = 0;
   timeline.push(
-    testInstructions,
     {
       ...CBC_VPNNummer,
       data: { ...(CBC_VPNNummer.data || {}), form_id: "vpn" },
     },
-    /*
-    demographics_block
-    */
+    demographics_block,
     buildFromVPNTrial
   );
 }

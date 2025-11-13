@@ -142,20 +142,21 @@ function createLearningPhase(
   fsound,
   counterPrimRec
 ) {
-  var learningTimeline = [];
+  let learningTimeline = createWordLists(
+    list,
+    rlist,
+    tmrsound,
+    tmfsound,
+    rsound,
+    fsound
+  );
+
   if (counterPrimRec) {
     learningTimeline = counteractPrimRecEffects(learningTimeline);
   } else {
-    learningTimeline = createWordLists(
-      list,
-      rlist,
-      tmrsound,
-      tmfsound,
-      rsound,
-      fsound
-    );
     learningTimeline = jsPsych.randomization.shuffle(learningTimeline);
   }
+
   console.log(learningTimeline);
   return {
     timeline: [
@@ -180,28 +181,35 @@ function createLearningPhase(
               setTimeout(function () {
                 sound1.pause();
                 sound1.currentTime = 0;
-              }, 1000);
+              }, 1200);
               break;
             case "2":
               sound2.play();
               setTimeout(function () {
                 sound2.pause();
                 sound2.currentTime = 0;
-              }, 1000);
+              }, 1200);
               break;
             case "3":
               sound3.play();
               setTimeout(function () {
                 sound3.pause();
                 sound3.currentTime = 0;
-              }, 1000);
+              }, 1200);
               break;
             case "4":
               sound4.play();
               setTimeout(function () {
                 sound4.pause();
                 sound4.currentTime = 0;
-              }, 1000);
+              }, 1200);
+              break;
+            case "5":
+              sound5.play();
+              setTimeout(function () {
+                sound5.pause();
+                sound5.currentTime = 0;
+              }, 1200);
               break;
           }
         },
@@ -231,6 +239,23 @@ function getRememberedWords(list, rlist) {
 
 // Fragebogen
 
+const OPTIONAL_DEMOGRAPHIC_FIELDS = new Set([
+  "misc_general",
+  "misc_handedness",
+  "misc_cycle",
+  "study_field",
+  "pregnancy",
+  "cycle_known",
+  "cycle_phase",
+  "last_period",
+  "cycle_day",
+  "contraception",
+  "contraception_type",
+]);
+
+const isOptionalDemographicField = (name) =>
+  OPTIONAL_DEMOGRAPHIC_FIELDS.has(String(name ?? ""));
+
 function checkOther(
   val,
   comparison,
@@ -249,15 +274,25 @@ function checkOther(
     const div = document.getElementById(div_id);
     if (div) {
       div.style.display = showExtraFields ? "block" : "none";
-
-      // If hiding: clear all inputs and selects inside the div
-      if (!showExtraFields) {
-        const elements = div.querySelectorAll("input, select, textarea");
-        elements.forEach((el) => {
-          el.value = "";
+      const elements = div.querySelectorAll("input, select, textarea");
+      elements.forEach((el) => {
+        const type = (el.getAttribute("type") || "").toLowerCase();
+        const optional = isOptionalDemographicField(el.getAttribute("name"));
+        if (showExtraFields) {
+          if (!optional && !["button", "submit", "reset"].includes(type)) {
+            el.setAttribute("required", "required");
+          }
+        } else {
+          if (type === "checkbox" || type === "radio") {
+            el.checked = false;
+          } else if (el.tagName === "SELECT") {
+            el.selectedIndex = 0;
+          } else {
+            el.value = "";
+          }
           el.removeAttribute("required");
-        });
-      }
+        }
+      });
     }
   }
 
@@ -267,7 +302,8 @@ function checkOther(
       const el = document.getElementById(id);
       if (el) {
         el.style.display = showExtraFields ? "block" : "none";
-        if (showExtraFields) {
+        const optional = isOptionalDemographicField(el.getAttribute("name"));
+        if (showExtraFields && !optional) {
           el.setAttribute("required", "required");
         } else {
           el.removeAttribute("required");
@@ -282,7 +318,8 @@ function checkOther(
     select_ids.forEach((id) => {
       const el = document.getElementById(id);
       if (el) {
-        if (showExtraFields) {
+        const optional = isOptionalDemographicField(el.getAttribute("name"));
+        if (showExtraFields && !optional) {
           el.setAttribute("required", "required");
         } else {
           el.removeAttribute("required");
@@ -291,6 +328,41 @@ function checkOther(
       }
     });
   }
+
+  if (typeof enforceDemographicsRequired === "function") {
+    enforceDemographicsRequired();
+  }
+}
+
+function enforceDemographicsRequired() {
+  const container = document.querySelector(".questions");
+  if (!container) return;
+
+  const elements = container.querySelectorAll("input, select, textarea");
+  elements.forEach((el) => {
+    const type = (el.getAttribute("type") || "").toLowerCase();
+    const name = el.getAttribute("name");
+    if (["button", "submit", "reset", "hidden"].includes(type)) return;
+    if (isOptionalDemographicField(name)) {
+      el.removeAttribute("required");
+      return;
+    }
+    if (el.disabled) {
+      el.removeAttribute("required");
+      return;
+    }
+    const style = window.getComputedStyle(el);
+    const isVisible =
+      style.display !== "none" &&
+      style.visibility !== "hidden" &&
+      el.offsetParent !== null;
+
+    if (isVisible) {
+      el.setAttribute("required", "required");
+    } else {
+      el.removeAttribute("required");
+    }
+  });
 }
 
 // FUNCTIONS --------------------------------------------------------------------------------------------
@@ -473,4 +545,25 @@ function prefillAndMark(html, data, items) {
       }
     });
   });
+
+  (items || []).forEach((item) => {
+    if (!item || !item.name) return;
+    wrap.querySelectorAll(`[name="${CSS.escape(item.name)}"]`).forEach((el) => {
+      const container =
+        el.closest("[data-question]") ||
+        el.closest("p") ||
+        el.closest("fieldset") ||
+        el.parentElement;
+      if (!container) return;
+
+      const baseClass = "demographics-flag";
+      const severityClass =
+        item.severity === "hard"
+          ? "demographics-flag-hard"
+          : "demographics-flag-soft";
+      container.classList.add(baseClass, severityClass);
+    });
+  });
+
+  return wrap.innerHTML;
 }

@@ -54,6 +54,8 @@ var freeRecall = (function (jspsych) {
                 <label for="confirmation-checkbox" style="margin-left: 5px;">
                   Beenden bestätigen
                 </label>
+                <small id="confirmation-warning" style="display:none;color:#c62828;margin-left:8px;">
+                </small>
               </div>
               <!-- Fertig-Button -->
               <button
@@ -80,6 +82,9 @@ var freeRecall = (function (jspsych) {
       );
       const confirmationCheckbox = display_element.querySelector(
         "#confirmation-checkbox"
+      );
+      const confirmationWarning = display_element.querySelector(
+        "#confirmation-warning"
       );
 
       let buttonClickedOnce = false;
@@ -135,17 +140,27 @@ var freeRecall = (function (jspsych) {
 
         if (!buttonClickedOnce) {
           checkboxContainer.style.display = "flex";
+          confirmationCheckbox.checked = false;
+          confirmationWarning.style.display = "none";
           buttonClickedOnce = true;
           return;
-        } else {
-          const trialdata = {
-            words: words,
-            reaction_times: reaction_times,
-            all_responses_free_recall: all_responses_free_recall,
-            data: trial.data,
-          };
-          this.jsPsych.finishTrial(trialdata);
         }
+
+        if (!confirmationCheckbox.checked) {
+          confirmationWarning.style.display = "inline";
+          confirmationCheckbox.focus();
+          return;
+        }
+
+        confirmationWarning.style.display = "none";
+
+        const trialdata = {
+          words: words,
+          reaction_times: reaction_times,
+          all_responses_free_recall: all_responses_free_recall,
+          data: trial.data,
+        };
+        this.jsPsych.finishTrial(trialdata);
       });
     }
   }
