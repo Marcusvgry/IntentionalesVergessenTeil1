@@ -80,7 +80,7 @@ var jsPsychHtmlSliderResponse = (function (jspsych) {
       },
       button_label: {
         type: jspsych.ParameterType.STRING,
-        default: "Continue",
+        default: "Weiter",
         array: false
       },
       require_movement: {
