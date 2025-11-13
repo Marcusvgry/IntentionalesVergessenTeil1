@@ -94,9 +94,7 @@ const CBC_VPNNummer = {
     selected_tmfsound = responses["AuswahlSound2"];
     selected_rsound = responses["AuswahlSound3"];
     selected_fsound = responses["AuswahlSound4"];
-    const selectedSound5Selection = responses["AuswahlSound5"];
-    selectedSound5 =
-      soundFiles[`sound${selectedSound5Selection}`] || soundFiles.sound5;
+    selected_sound5 = responses["AuswahlSound5"];
 
     selectedCondition = responses["Wortliste"];
     confidenceCheckTonesTimeline.timeline_variables =
@@ -123,14 +121,24 @@ const cuedRecallTrial = {
 
 // Plays sound 5 12 times consecutively
 
+const resolveUnrelatedSoundStimulus = () => {
+  const selection = Number(selected_sound5);
+  const key =
+    Number.isFinite(selection) && selection >= 1 && selection <= 5
+      ? `sound${selection}`
+      : null;
+
+  return (key && soundFiles[key]) || fallback;
+};
+
 const playUnrelatedSound = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: selectedSound5,
+  stimulus: () => resolveUnrelatedSoundStimulus(),
   prompt: '<div style="font-size: 60px;">+</div>',
   choices: "NO_KEYS",
   trial_duration: 2500,
   on_start: function (trial) {
-    trial.stimulus = selectedSound5;
+    trial.stimulus = resolveUnrelatedSoundStimulus();
   },
 };
 

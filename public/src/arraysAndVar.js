@@ -13,8 +13,6 @@ const soundFiles = {
   sound5: "../sounds/tone_E.wav",
 };
 
-selected_sound5 = soundFiles.sound5;
-
 var sound1 = new Audio(soundFiles.sound1);
 var sound2 = new Audio(soundFiles.sound2);
 var sound3 = new Audio(soundFiles.sound3);

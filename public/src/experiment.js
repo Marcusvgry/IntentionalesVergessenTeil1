@@ -31,6 +31,7 @@ function saveExperimentData(filenameSuffix = "") {
 
 const jsPsych = initJsPsych({
   use_webaudio: false,
+  override_safe_mode: true,
   on_finish: function () {
     saveExperimentData();
   },
@@ -56,6 +57,7 @@ const buildFromVPNTrial = {
       const selected_tmfsound = resp["AuswahlSound2"] || "Sound 2";
       const selected_rsound = resp["AuswahlSound3"] || "Sound 3";
       const selected_fsound = resp["AuswahlSound4"] || "Sound 4";
+      const seleced_sound5 = resp["AuswahlSound5"] || "Sound 5";
 
       jsPsych.data.addProperties({
         listToRemember,
@@ -63,6 +65,7 @@ const buildFromVPNTrial = {
         selected_tmfsound,
         selected_rsound,
         selected_fsound,
+        seleced_sound5,
       });
 
       const rest = [
