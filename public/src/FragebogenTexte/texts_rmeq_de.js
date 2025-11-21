@@ -1,13 +1,13 @@
 const meq_instr_text = `<div class="instructions">
-    <p>Im folgenden werden dir ein paar Fragen zu deinem typischen Tagesrhythmus stellen.<br>
-    Bitte lese jede Frage genau, bevor du sie beantwortest.<br>
+    <p>Im folgenden werden Ihnen ein paar Fragen zu Ihrem typischen Tagesrhythmus stellen.<br>
+    Bitte lesen Sie jede Frage genau, bevor Sie sie beantworten.<br>
     Jede Frage sollte unabhängig von den vorherigen Fragen beantwortet werden.<br>
-    Wähle jeweils die Antwort, die am besten auf dich und deinen Tagesrhythmus zutrifft.
+    Wählen Sie jeweils die Antwort, die am besten auf Sie und Ihren Tagesrhythmus zutrifft.
 </div>`;
 
 const meq_1_text = `<div class="instructions_c">
-    <b>Wenn es nach deinem eigenen Wohlbefinden ginge und du deinen Tag völlig frei einteilen könntest, wann würdest 
-    du dann aufstehen? Bitte markiere die Uhrzeit auf der Zeitleiste.</b>
+    <b>Wenn es nach Ihrem eigenen Wohlbefinden ginge und Sie Ihren Tag völlig frei einteilen könnten, wann würden 
+    Sie dann aufstehen? Bitte markieren Sie die Uhrzeit auf der Zeitleiste.</b>
 </div>`;
 
 var meq_labels1 = [];
@@ -31,7 +31,7 @@ const meq_labels1_data = meq_labels1.map((item, index) => {
 });
 
 const meq_7_prompt =
-  "<b>Wie müde fühlst du dich morgens in der ersten halben Stunde nach dem Aufwachen?</b>";
+  "<b>Wie müde fühlen Sie sich morgens in der ersten halben Stunde nach dem Aufwachen?</b>";
 
 const meq_7_labels = [
   "sehr müde",
@@ -66,7 +66,7 @@ const meq_labels10_data = meq_labels10.map((item, index) => {
 });
 
 const meq_10_text = `<div class="instructions_c">
-    <b>Um wie viel Uhr wirst du abends müde und hast das Bedürfnis schlafen zu gehen? Bitte markiere die Uhrzeit auf
+    <b>Um wie viel Uhr werden Sie abends müde und haben das Bedürfnis schlafen zu gehen? Bitte markieren Sie die Uhrzeit auf
     der Zeitleiste.</b>
 </div>`;
 
@@ -92,12 +92,11 @@ const meq_labels18_data = meq_labels18.map((item) => {
 });
 
 const meq_18_text = `<div class="instructions_c">
-    <b>Zu welcher Tageszeit fühlst du dich deiner Meinung nach am besten?</b>
+    <b>Zu welcher Tageszeit fühlen Sie sich Ihrer Meinung nach am besten?</b>
 </div>`;
 
 const meq_19_prompt =
-  '<b>Man spricht bei Menschen von "Morgen"- und "Abendtypen". Zu welchem der folgenden Typen zählst du dich?</b>';
-
+  '<b>Man spricht bei Menschen von "Morgen"- und "Abendtypen". Zu welchem der folgenden Typen zählen Sie sich?</b>';
 const meq_19_labels = [
   'eindeutig "Morgentyp"',
   'eher "Morgen"- als "Abendtyp"',

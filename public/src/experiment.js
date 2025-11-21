@@ -71,14 +71,16 @@ const buildFromVPNTrial = {
       const rest = [
         //demographics_block,
         preloadSounds,
+        instructions_unrelatedSound,
+        playUnrelatedSoundTimeline,
         instructions,
         createLearningPhase(
           wordListExample,
           listToRemember,
-          selected_tmrsound,
-          selected_tmfsound,
-          selected_rsound,
-          selected_fsound,
+          bsp_e,
+          bsp_v,
+          bsp_e,
+          bsp_v,
           false
         ),
         instructions_2,
@@ -86,18 +88,16 @@ const buildFromVPNTrial = {
         createLearningPhase(
           wordListTest,
           listToRemember,
-          selected_tmrsound,
-          selected_tmfsound,
-          selected_rsound,
-          selected_fsound,
+          bsp_e,
+          bsp_v,
+          bsp_e,
+          bsp_v,
           false
         ),
         instructions_4,
         freeRecallWoerter,
         instructions_5,
         cuedRecallTrial,
-        instructions_unrelatedSound,
-        playUnrelatedSoundTimeline,
         instructions_6,
 
         createLearningPhase(

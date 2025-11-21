@@ -33,32 +33,10 @@ const exclusion_screen = {
       return `<div class="instructions"><p>Alle Angaben wurden akzeptiert.</p></div>`;
     }
 
-    const hasHard = items.some((it) => it.severity === "hard");
-    const message = hasHard
-      ? "Bitte wenden Sie sich nun an die Versuchsleitung."
-      : "Bitte wenden Sie sich nun an die Versuchsleitung.";
-
-    return `<div class="instructions"><p>${message}</p></div>`;
+    return `<div class="instructions"><p>Bitte wenden Sie sich an die Versuchsleitung.</p></div>`;
   },
-  choices: ["Zurück"],
+  choices: ["Weiter"],
 };
-const demographics_retry = {
-  type: jsPsychSurveyHtmlForm,
-  html: function () {
-    const last = jsPsych.data
-      .get()
-      .filter({ trial_type: "survey-html-form" })
-      .last(1)
-      .values()[0];
-    return last.markedFormHtml || text_demographics;
-  },
-  button_label: "Weiter",
-  on_load: function () {
-    enforceDemographicsRequired();
-  },
-  on_finish: demographics_trial.on_finish,
-};
-
 const demographics_flagged_review = {
   type: jsPsychHtmlButtonResponse,
   stimulus: function () {
@@ -68,9 +46,21 @@ const demographics_flagged_review = {
       .last(1)
       .values()[0];
     const reviewHtml = last?.markedFormHtml || text_demographics;
-    return `<div class="demographics-review">${reviewHtml}</div>`;
+    return `<div class="instructions"><p>Bitte prüfen Sie die markierten Antworten. Sie können fortfahren oder das Experiment beenden.</p></div><div class="demographics-review">${reviewHtml}</div>`;
   },
-  choices: ["Weiter"],
+  choices: ["Weiter", "Experiment beenden"],
+  on_finish: function (data) {
+    if (data.response === 1) {
+      if (typeof saveExperimentData === "function") {
+        saveExperimentData("_abbruch");
+      } else {
+        jsPsych.data.get().localSave("csv", "DirFor1_Abbruch.csv");
+      }
+      jsPsych.endExperiment(
+        "Das Experiment wurde beendet. Die bis dahin erhobenen Daten wurden gespeichert."
+      );
+    }
+  },
 };
 
 // 2.4 Block mit Wiederholung solange harter Ausschluss
@@ -90,26 +80,9 @@ const demographics_block = {
           : false;
       },
     },
-    {
-      timeline: [demographics_retry],
-      conditional_function: function () {
-        const lastSurvey = jsPsych.data
-          .get()
-          .filter({ trial_type: "survey-html-form" })
-          .last(1)
-          .values()[0];
-        return !!lastSurvey?.isExcludedHard; // nur wenn harter Ausschluss
-      },
-    },
   ],
   loop_function: function () {
-    // Wiederholen bis kein harter Ausschluss mehr vorliegt
-    const lastSurvey = jsPsych.data
-      .get()
-      .filter({ trial_type: "survey-html-form" })
-      .last(1)
-      .values()[0];
-    return !!lastSurvey?.isExcludedHard;
+    return false;
   },
 };
 // PVT -----------------------------------------------------------------------------------------------

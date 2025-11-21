@@ -1,4 +1,4 @@
-const sss_prompt = `<b>Wie wach fühlst du dich jetzt gerade?</b><br> Die letzte Option dient nur der Orientierung und kann nicht angekreuzt werden.`;
+const sss_prompt = `<b>Wie wach fühlen Sie sich jetzt gerade?</b><br> Die letzte Option dient nur der Orientierung und kann nicht angekreuzt werden.`;
 
 var sssOptions = [
   "Ich fühle mich aktiv, lebhaft, aufmerksam oder sehr wach",

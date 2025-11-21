@@ -2,21 +2,46 @@ const instructions = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p> Liebe Teilnehmerin, lieber Teilnehmer,  </p>
-        <p> zunächst einmal ganz herzlichen Dank für Ihre Bereitschaft, an dieser Studie teilzunehmen. </p>
-        <p> In dieser Studie geht es darum, wie gut man Wörter erinnern und auch zielgerichtet wieder vergessen kann. </p>
-        <p> Die Studie besteht aus mehreren Phasen. </p>
-        <p> Bitte lesen Sie die folgenden Instruktionen gründlich durch. Wenn Sie während der Studie Fragen haben, können Sie sich jederzeit an die Versuchsleitung wenden. </p>
- </div>`,
-    `<div class="instructions">
-        <p> Die Studie beginnt mit einer Lernphase. Dabei sehen Sie eine Reihe von einzelnen Wörtern, die nacheinander auf dem Bildschirm erscheinen. </p>
-        <p> Ihre Aufgabe wird es sein, sich einen Teil der Wörter für einen späteren Gedächtnistest zu merken. </p>
+        <p>Willkommen zur Vergissmeinnicht Studie!</p>
+
+<p>In dieser Studie geht es um das selektive Erinnern von konkreten Begriffen.</p>
+
+<p>Die Studie besteht aus mehreren Phasen. Bitte lesen Sie die folgenden Instruktionen gründlich durch.</p>
+
+<p>Wenn Sie während der Studie Fragen haben, können Sie sich jederzeit an die Versuchsleitung wenden.</p>
+
+<p>Lesen Sie weiter mit dem Button.</p>
+
         </div>`,
     `<div class="instructions">
-        <p> Von den Wörtern, die Ihnen gleich im Lerndurchgang gezeigt werden, sollen nur bestimmte Wörter gelernt werden. </p>
-        <p> Folgt auf ein Wort die Buchstabenkombination "EEE" sollen Sie sich später an das vorangegangene Wort erinnern (E = erinnern). </p>
-        <p> Erscheint nach einem Wort die Buchstabenkombination "VVV" sollen Sie sich das vorangegangene Wort bitte NICHT merken, sondern direkt wieder vergessen (V = vergessen). </p>
-        <p> Gleichzeitig mit den Wörtern werden außerdem Töne von verschiedenen Musikinstrumenten abgespielt. Diese Töne haben keine Bedeutung für Sie oder Ihre Aufgabe. </p>
+    <p>Die Studie beginnt mit einer Lernphase.</p>
+
+<p>Dabei sehen Sie eine Reihe von einzelnen Wörtern, die nacheinander auf dem Bildschirm erscheinen.</p>
+
+<p>Ihre Aufgabe wird es sein, sich einen Teil der Wörter für einen späteren Gedächtnistest zu merken.</p>
+
+<p>Zwischen der Lernphase für die Wörter und dem Gedächtnistest gibt es einen kurzen Abschnitt, in dem Sie einfache Mathematik-Aufgaben bearbeiten.</p>
+
+<p>Lesen Sie weiter mit dem Button.</p>
+
+        </div>`,
+    `<div class="instructions">
+        <p>Von den Wörtern, die Ihnen gleich in der Lernphase gezeigt werden, sollen nur bestimmte Wörter gelernt werden.</p>
+
+<p>Folgt auf ein Wort die Buchstabenkombination <b>EEE</b>, sollen Sie sich das vorangegangene Wort bitte für den Gedächtnistest merken. Die Buchstabenkombination <b>EEE</b> steht hierbei für "Erinnern".</p>
+
+<p>Erscheint nach einem Wort die Buchstabenkombination <b>VVV</b>, sollen Sie sich das vorangegangene Wort bitte NICHT merken. Sie sollen das Wort dann also vergessen. Die Buchstabenkombination <b>VVV</b> steht hierbei für "Vergessen".</p>
+
+<p>Weiter mit dem Button.</p>
+        </div>`,
+    `<div class="instructions">
+    <p>Als nächstes werden Sie ein Beispiel sehen.</p>
+
+<p>Ein Wort wird auf dem Bildschirm erscheinen. Auf das Wort folgt eine Buchstabenkombination.</p>
+
+<p>Danach sehen Sie ein zweites Wort, auf welches dann auch wieder eine Buchstabenkombination folgt.</p>
+
+<p>Drücken Sie den Button, um das Beispiel zu sehen.</p>
         </div>`,
   ],
   show_clickable_nav: true,
@@ -84,9 +109,7 @@ const instructions_unrelatedSound = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p>Bevor Sie mit der eigentlichen Lernphase beginnen, werden wir Ihnen noch einen weiteren Ton mehrmals hintereinander abspielen.</p>
-        <p>Dieser Ton ist neu und besitzt für die anschließende Aufgabe keine Bedeutung. Das bedeutet, dass die Töne, die Sie in der Lernphase hören, dieselben sind wie bei den Übungsdurchgängen.</p>
-        <p>Während der Ton abgespielt wird, müssen Sie keine zusätzliche Aufgabe erledigen. Bitte hören Sie trotzdem aufmerksam zu.</p>
+        <p>Bevor Sie mit der eigentlichen Aufgabe beginnen, werden wir Ihnen noch einen Ton präsentieren. Hierbei müssen Sie nichts tun und keine Aufgabe erledigen. Bitte hören Sie trotzdem aufmerksamk zu und schauen Sie auf das Kreuz in der Mitte des Bildschirms</p>
       </div>`,
   ],
   show_clickable_nav: true,
@@ -100,7 +123,7 @@ const instructions_6 = {
     `<div class="instructions">
         <p> Haben Sie noch Fragen zur Lernphase oder zu Ihrer Aufgabe? </p>
         <p> Falls Sie noch Fragen haben, wenden Sie sich bitte jetzt an die Versuchsleitung. </p>
-        <p> Wenn Sie keine Fragen mehr haben, drücken Sie die Leertaste, um die Wörter für den späteren Gedächtnistest zu lernen. </p>
+        <p> Wenn Sie keine Fragen mehr haben, drücken Sie den Button unten, um die Wörter für den späteren Gedächtnistest zu lernen. </p>
         <p> Bitte stellen Sie sich darauf ein, dass Sie jetzt in dieser Lernphase mehr Wörter präsentiert bekommen werden als in den Übungsdurchgängen </p>
         </div>`,
   ],

@@ -11,13 +11,17 @@ const soundFiles = {
   sound3: "../sounds/tone_C.wav",
   sound4: "../sounds/tone_D.wav",
   sound5: "../sounds/tone_E.wav",
+  bsp_e: "../sounds/Bsp_E.wav",
+  bsp_v: "../sounds/Bsp_V.wav",
 };
 
-var sound1 = new Audio(soundFiles.sound1);
-var sound2 = new Audio(soundFiles.sound2);
-var sound3 = new Audio(soundFiles.sound3);
-var sound4 = new Audio(soundFiles.sound4);
-var sound5 = new Audio(soundFiles.sound5);
+const sound1 = new Audio(soundFiles.sound1);
+const sound2 = new Audio(soundFiles.sound2);
+const sound3 = new Audio(soundFiles.sound3);
+const sound4 = new Audio(soundFiles.sound4);
+const sound5 = new Audio(soundFiles.sound5);
+const bsp_e = new Audio(soundFiles.bsp_e);
+const bsp_v = new Audio(soundFiles.bsp_v);
 var settingsDone = false;
 
 const cont_text = "Weiter";
@@ -60,29 +64,25 @@ let psqi_components = {
 
 const EXCLUSION_CONFIG = {
   exclusionCriteria: {
-    // Demografie
     age: "<18|>35",
-
-    // Lebenssituation (braucht Rücksprache/VL)
-    living_situation: "betreut|heim|jva|wohnungslos",
+    education: "keine Berufsausbildung|Lehre/Ausbildung",
 
     // Sprache
-    fluency: "=no",
+    fluency: "no",
+
+    // Wohnsituation
+    living_situation: "betreut",
 
     // Zyklus/Schwangerschaft
     pregnancy: "ja",
 
     // Substanzen heute/gestern
-    drugs_today:
-      "ja|/\\b(thc|cannabis|cocaine|kokain|mdma|amphet|opiat|benzodiazepin|z-?drug|ketamin)\\b/i",
+    drugs_today: "ja",
     alcohol_today: "ja",
-    alcohol_yesterday: "ja", // optional nur soft (s.u.)
     smoking_today: "ja", // i.d.R. soft; harte Rule z.B. späte Uhrzeit
-    caffeine_time: "/^(1[6-9]|2[0-3]):/", // Koffein nach 16:00 (24h), harte Zeitnähe
+    caffeine: "ja",
+    caffeine_time: "/^(1[2-9]|2[0-3]):/", // Koffein nach 16:00 (24h), harte Zeitnähe
 
-    // Medikamente (psychoaktiv/schlafwirksam)
-    medication_what:
-      "/(ssri|snri|trizykl|tca|maoi|mirtaz|buprop|antipsych|neurolept|benzodiaz|zopiclone?|zolpidem|pregabalin|gabapentin|modafinil|methylphenidat|atomoxetin|beta.?block)/i",
     medication_today: "ja", // markiert „Medis aktuell“ (Details s.o.)
 
     // Schlaf / Tagesrhythmus
@@ -90,28 +90,25 @@ const EXCLUSION_CONFIG = {
     sleep_quality: "1|2", // sehr/ziemlich schlecht
     sleep_change: "ja",
     recent_stress: "ja",
-
-    // (falls rechtshändig benötigt)
-    handedness: "links|beid",
   },
   softHardMap: {
     age: "hard",
-    living_situation: "hard",
+    education: "hard",
     fluency: "hard",
     pregnancy: "hard",
     drugs_today: "hard",
     alcohol_today: "hard",
-    alcohol_yesterday: "soft",
     smoking_today: "soft",
+    caffeine: "soft",
     caffeine_time: "hard",
-    medication_what: "hard",
     medication_today: "soft",
     wake_time: "soft",
     sleep_quality: "soft",
     sleep_change: "soft",
     recent_stress: "soft",
-    handedness: "soft",
   },
 };
 
 const toNum = (v) => Number(String(v ?? "").replace(",", "."));
+
+const cuedRecallTestList = [];

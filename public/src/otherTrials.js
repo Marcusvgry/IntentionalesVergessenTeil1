@@ -34,8 +34,8 @@ const CBC_VPNNummer = {
   <label for="Wortliste2" class="condition-label">2</label>
 </div>
 
-  <p>Auswahl sound 1</p>
-  <select name="AuswahlSound1" id="AuswahlSound1" required class="condition-select">
+  <p>Erinnert + Reaktiviert</p>
+  <select name="Erinnert + Reaktiviert" id="Erinnert + Reaktiviert" required class="condition-select">
     <option value=""  –</option>
     <option value="1">Sound 1</option>
     <option value="2">Sound 2</option>
@@ -44,8 +44,8 @@ const CBC_VPNNummer = {
     <option value="5">Sound 5</option>
   </select>
 
-  <p>Auswahl sound 2</p>
-  <select name="AuswahlSound2" id="AuswahlSound2" required class="condition-select">
+  <p>Vergessen + Reaktiviert</p>
+  <select name="Vergessen + Reaktiviert" id="Vergessen + Reaktiviert" required class="condition-select">
     <option value=""  –</option>
     <option value="1">Sound 1</option>
     <option value="2">Sound 2</option>
@@ -54,8 +54,8 @@ const CBC_VPNNummer = {
     <option value="5">Sound 5</option>
   </select>
 
-  <p>Auswahl sound 3</p>
-  <select name="AuswahlSound3" id="AuswahlSound3" required class="condition-select">
+  <p>Erinnert + Nicht-Reaktiviert</p>
+  <select name="Erinnert + Nicht-Reaktiviert" id="Erinnert + Nicht-Reaktiviert" required class="condition-select">
     <option value=""  –</option>
     <option value="1">Sound 1</option>
     <option value="2">Sound 2</option>
@@ -64,8 +64,8 @@ const CBC_VPNNummer = {
     <option value="5">Sound 5</option>
   </select>
 
-  <p>Auswahl sound 4</p>
-  <select name="AuswahlSound4" id="AuswahlSound4" required class="condition-select">
+  <p>Vergessen + Nicht-Reaktiviert</p>
+  <select name="Vergessen + Nicht-Reaktiviert" id="Vergessen + Nicht-Reaktiviert" required class="condition-select">
     <option value=""  –</option>
     <option value="1">Sound 1</option>
     <option value="2">Sound 2</option>
@@ -74,8 +74,8 @@ const CBC_VPNNummer = {
     <option value="5">Sound 5</option>
   </select>
 
-  <p>Auswahl sound 5</p>
-  <select name="AuswahlSound5" id="AuswahlSound5" required class="condition-select">
+  <p>Unasoziierter Ton</p>
+  <select name="Unasoziierter Ton" id="Unasoziierter Ton" required class="condition-select">
     <option value=""  –</option>
     <option value="1">Sound 1</option>
     <option value="2">Sound 2</option>
@@ -90,12 +90,11 @@ const CBC_VPNNummer = {
 `,
   on_finish: function (data) {
     const responses = data.response;
-    selected_tmrsound = responses["AuswahlSound1"];
-    selected_tmfsound = responses["AuswahlSound2"];
-    selected_rsound = responses["AuswahlSound3"];
-    selected_fsound = responses["AuswahlSound4"];
-    selected_sound5 = responses["AuswahlSound5"];
-
+    selected_tmrsound = responses["Erinnert + Reaktiviert"];
+    selected_tmfsound = responses["Vergessen + Reaktiviert"];
+    selected_rsound = responses["Erinnert + Nicht-Reaktiviert"];
+    selected_fsound = responses["Vergessen + Nicht-Reaktiviert"];
+    selected_sound5 = responses["Unasoziierter Ton"];
     selectedCondition = responses["Wortliste"];
     confidenceCheckTonesTimeline.timeline_variables =
       buildConfidenceToneTimelineVariables();
@@ -116,7 +115,7 @@ const cuedRecallTrial = {
   prompt:
     "Vervollständigen sie das Wort und bestätigen sie ihre Eingabe mit der Enter-Taste.",
   button_label: "Fertig",
-  string_to_display: ["Wein", "Tropfen", "Arbeit", "Tür", "Banane", "Kälte"],
+  string_to_display: cuedRecallTestList,
 };
 
 // Plays sound 5 12 times consecutively
@@ -275,8 +274,9 @@ const Debriefing = {
   stimulus: function () {
     return `
             <div class="instructions">
-                <p>Die Lernphase ist nun abgeschlossen.</p>
+                <p>Die erste Teil der Studie ist nun abgeschlossen.</p>
                 <p>Wir werden Sie morgen früh bitten, die Wörter, denen ein EEE folgte, aus dem Gedächtnis abzurufen.</p>
+                <p> Wenden Sie sich nun bitte an die Versuchsleitung </p>
             </div>
         `;
   },

@@ -140,7 +140,8 @@ function createLearningPhase(
   tmfsound,
   rsound,
   fsound,
-  counterPrimRec
+  counterPrimRec,
+  testList
 ) {
   let learningTimeline = createWordLists(
     list,
@@ -170,8 +171,20 @@ function createLearningPhase(
         type: jsPsychHtmlKeyboardResponse,
         stimulus: jsPsych.timelineVariable("word"),
         choices: "NO_KEYS",
-        trial_duration: 1200,
-        stimulus_duration: 1200,
+        trial_duration: 2000,
+        stimulus_duration: 2000,
+        css_classes: ["stimulus-large-text"],
+        on_load: function () {
+          if (testList && jsPsych.timelineVariable("instruction") == "EEE") {
+            cuedRecallTestList.push(jsPsych.timelineVariable("word"));
+          }
+        },
+      },
+      {
+        type: jsPsychHtmlKeyboardResponse,
+        stimulus: jsPsych.timelineVariable("instruction"),
+        choices: "NO_KEYS",
+        trial_duration: 1000,
         css_classes: ["stimulus-large-text"],
         on_load: function () {
           const sound = jsPsych.evaluateTimelineVariable("sound");
@@ -181,45 +194,38 @@ function createLearningPhase(
               setTimeout(function () {
                 sound1.pause();
                 sound1.currentTime = 0;
-              }, 1200);
+              }, 1000);
               break;
             case "2":
               sound2.play();
               setTimeout(function () {
                 sound2.pause();
                 sound2.currentTime = 0;
-              }, 1200);
+              }, 1000);
               break;
             case "3":
               sound3.play();
               setTimeout(function () {
                 sound3.pause();
                 sound3.currentTime = 0;
-              }, 1200);
+              }, 1000);
               break;
             case "4":
               sound4.play();
               setTimeout(function () {
                 sound4.pause();
                 sound4.currentTime = 0;
-              }, 1200);
+              }, 1000);
               break;
             case "5":
               sound5.play();
               setTimeout(function () {
                 sound5.pause();
                 sound5.currentTime = 0;
-              }, 1200);
+              }, 1000);
               break;
           }
         },
-      },
-      {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: jsPsych.timelineVariable("instruction"),
-        choices: "NO_KEYS",
-        trial_duration: 800,
-        css_classes: ["stimulus-large-text"],
       },
     ],
     timeline_variables: learningTimeline,
@@ -468,21 +474,60 @@ function matchTerm(answerRaw, termRaw) {
   return negate ? !ok : ok;
 }
 
+function splitCriterion(text, delimiter) {
+  if (text == null) return [];
+  const parts = [];
+  let current = "";
+  let inRegex = false;
+  let escapeNext = false;
+
+  for (const ch of String(text)) {
+    if (escapeNext) {
+      current += ch;
+      escapeNext = false;
+      continue;
+    }
+    if (ch === "\\") {
+      current += ch;
+      escapeNext = true;
+      continue;
+    }
+    if (ch === "/" && !inRegex) {
+      inRegex = true;
+      current += ch;
+      continue;
+    }
+    if (ch === "/" && inRegex) {
+      inRegex = false;
+      current += ch;
+      continue;
+    }
+    if (!inRegex && ch === delimiter) {
+      parts.push(current);
+      current = "";
+      continue;
+    }
+    current += ch;
+  }
+  parts.push(current);
+  return parts;
+}
+
 function matchesCriterion(answer, criterion) {
   if (criterion == null) return false;
   const crit = String(criterion).trim();
   if (!crit) return false;
-  return crit
-    .split("|")
+  const orGroups = splitCriterion(crit, "|")
     .map((s) => s.trim())
-    .filter(Boolean)
-    .some((group) =>
-      group
-        .split("&")
-        .map((s) => s.trim())
-        .filter(Boolean)
-        .every((t) => matchTerm(answer, t))
-    );
+    .filter(Boolean);
+  if (!orGroups.length) return false;
+
+  return orGroups.some((group) =>
+    splitCriterion(group, "&")
+      .map((s) => s.trim())
+      .filter(Boolean)
+      .every((t) => matchTerm(answer, t))
+  );
 }
 
 function evaluateExclusions(participantData, exclusionCriteria, softHardMap) {
@@ -518,6 +563,63 @@ function prefillAndMark(html, data, items) {
   const wrap = document.createElement("div");
   wrap.innerHTML = html;
 
+  const ensureVisible = (element) => {
+    let current = element;
+    while (current && current !== wrap) {
+      if (current.nodeType === 1) {
+        if (current.hasAttribute("hidden")) {
+          current.removeAttribute("hidden");
+        }
+        if (
+          current.style &&
+          typeof current.style.display === "string" &&
+          current.style.display.toLowerCase() === "none"
+        ) {
+          current.style.removeProperty("display");
+        }
+      }
+      current = current.parentElement;
+    }
+  };
+
+  const controlHasValue = (control) => {
+    const tag = control.tagName.toLowerCase();
+    const type = (control.getAttribute("type") || "").toLowerCase();
+    if (tag === "textarea") {
+      return control.textContent && control.textContent.trim() !== "";
+    }
+    if (tag === "select") {
+      return Array.from(control.querySelectorAll("option")).some((opt) =>
+        opt.hasAttribute("selected")
+      );
+    }
+    if (type === "radio" || type === "checkbox") {
+      return control.hasAttribute("checked");
+    }
+    const attrVal = control.getAttribute("value");
+    return attrVal != null && String(attrVal).trim() !== "";
+  };
+
+  const revealAnsweredBlocks = () => {
+    const maybeReveal = (node) => {
+      const inputs = node.querySelectorAll("input, select, textarea");
+      if (Array.from(inputs).some((ctrl) => controlHasValue(ctrl))) {
+        ensureVisible(node);
+      }
+    };
+
+    wrap.querySelectorAll("[hidden]").forEach(maybeReveal);
+    wrap.querySelectorAll("*[style]").forEach((node) => {
+      if (
+        node.style &&
+        typeof node.style.display === "string" &&
+        node.style.display.toLowerCase() === "none"
+      ) {
+        maybeReveal(node);
+      }
+    });
+  };
+
   Object.entries(data || {}).forEach(([name, val]) => {
     wrap.querySelectorAll(`[name="${CSS.escape(name)}"]`).forEach((el) => {
       const tag = el.tagName.toLowerCase();
@@ -529,7 +631,6 @@ function prefillAndMark(html, data, items) {
           else opt.removeAttribute("selected");
         });
       } else if (tag === "textarea") {
-        // textarea-Wert ist der Textknoten
         el.textContent = val ?? "";
       } else if (type === "checkbox" || type === "radio") {
         const checked = Array.isArray(val)
@@ -539,16 +640,18 @@ function prefillAndMark(html, data, items) {
         if (checked) el.setAttribute("checked", "");
         else el.removeAttribute("checked");
       } else {
-        // input (text|number|date|time|…) – value-Attribut setzen
         if (val == null || val === "") el.removeAttribute("value");
         else el.setAttribute("value", String(val));
       }
     });
   });
 
+  revealAnsweredBlocks();
+
   (items || []).forEach((item) => {
     if (!item || !item.name) return;
     wrap.querySelectorAll(`[name="${CSS.escape(item.name)}"]`).forEach((el) => {
+      ensureVisible(el);
       const container =
         el.closest("[data-question]") ||
         el.closest("p") ||
@@ -556,6 +659,7 @@ function prefillAndMark(html, data, items) {
         el.parentElement;
       if (!container) return;
 
+      ensureVisible(container);
       const baseClass = "demographics-flag";
       const severityClass =
         item.severity === "hard"
