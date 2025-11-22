@@ -53,12 +53,13 @@ const instructions_2 = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p> In diesem Beispiel hätten Sie sich nur das Wort "Sonne" für den späteren Gedächtnistest merken sollen, das Wort „Rose“ jedoch nicht. </p>
+        <p>In diesem Beispiel hätten Sie sich nur das Wort "Sonne" für den späteren Gedächtnistest merken sollen.</p>
+<p>Das andere Wort hätten Sie vergessen sollen.</p>
         </div>`,
     `<div class="instructions">
-        <p> Zusammenfassung: </p>
-        </p> Sie sehen gleich eine Reihe von Wörtern hintereinander. Von diesen Wörtern sollen Sie sich nur die Wörter einprägen, auf die die Buchstabenkombination "EEE" folgt.
- </p>
+    <p>Zusammenfassung:</p>
+
+<p>Sie sehen gleich eine Reihe von Wörtern hintereinander. Von diesen Wörtern sollen Sie sich nur die Wörter einprägen, auf die die Buchstabenkombination <b>EEE</b> folgt.</p>
         </div>`,
   ],
   show_clickable_nav: true,
@@ -70,7 +71,10 @@ const instructions_3 = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p> Bevor der richtige Lerndurchgang beginnt, folgt nun ein Übungsdurchgang, in dem Sie sich mit Ihrer Aufgabe vertraut machen können. </p>
+       <p>Bevor die richtige Lernphase beginnt, folgt nun eine Übung, in der Sie sich mit Ihrer Aufgabe vertraut machen können.</p>
+
+<p>Drücken Sie den Button, um die Übung für die Lernphase zu starten.</p>
+ </p>
         </div>`,
   ],
   show_clickable_nav: true,
