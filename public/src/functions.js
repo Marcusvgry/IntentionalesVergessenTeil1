@@ -124,6 +124,147 @@ function counteractPrimRecEffects(stimuli) {
   return [...blockFirst, ...blockMiddle, ...blockLast];
 }
 
+// Maps different sound representations (number, "sound1", Audio object, file key) to a playable Audio instance
+function resolveSoundToAudio(sound) {
+  if (!sound) return null;
+
+  const known = {
+    sound1: typeof sound1 !== "undefined" ? sound1 : null,
+    sound2: typeof sound2 !== "undefined" ? sound2 : null,
+    sound3: typeof sound3 !== "undefined" ? sound3 : null,
+    sound4: typeof sound4 !== "undefined" ? sound4 : null,
+    sound5: typeof sound5 !== "undefined" ? sound5 : null,
+    bsp_e: typeof bsp_e !== "undefined" ? bsp_e : null,
+    bsp_v: typeof bsp_v !== "undefined" ? bsp_v : null,
+  };
+
+  if (typeof sound.play === "function") {
+    return sound;
+  }
+
+  const createFromKey = (key) => {
+    if (known[key]) {
+      return known[key];
+    }
+    if (soundFiles && soundFiles[key]) {
+      return new Audio(soundFiles[key]);
+    }
+    return null;
+  };
+
+  if (typeof sound === "number") {
+    const key = `sound${sound}`;
+    if (typeof window !== "undefined" && window[key]) {
+      return window[key];
+    }
+    return createFromKey(key);
+  }
+
+  if (typeof sound === "string") {
+    const trimmed = sound.trim().toLowerCase();
+    if (!trimmed) return null;
+
+    const numberMatch =
+      trimmed.match(/^sound\s*(\d)$/) || trimmed.match(/^(\d)$/);
+    if (numberMatch) {
+      const key = `sound${numberMatch[1]}`;
+      if (typeof window !== "undefined" && window[key]) {
+        return window[key];
+      }
+      return createFromKey(key);
+    }
+
+    if (soundFiles && soundFiles[trimmed]) {
+      return new Audio(soundFiles[trimmed]);
+    }
+  }
+
+  return null;
+}
+
+function buildToneLearningTimeline({
+  rememberSleep,
+  forgetSleep,
+  remember,
+  forget,
+  toneDurationMs = 1500,
+}) {
+  const tones = [
+    {
+      label:
+        "Dieser Ton wird zusammen mit Wörtern abgespielt, die sie Erinnern sollen.",
+      sound: rememberSleep,
+    },
+    {
+      label:
+        "Dieser Ton wird zusammen mit Wörtern abgespielt, die sie Vergessen sollen.",
+      sound: forgetSleep,
+    },
+    {
+      label:
+        "Dieser Ton wird zusammen mit Wörtern abgespielt, die sie Erinnern sollen.",
+      sound: remember,
+    },
+    {
+      label:
+        "Dieser Ton wird zusammen mit Wörtern abgespielt, die sie Vergessen sollen.",
+      sound: forget,
+    },
+  ];
+
+  const toneTrials = tones.map(({ label, sound }) => ({
+    type: jsPsychHtmlButtonResponse,
+    stimulus: `<div class="instructions"><p>${label}</p></div>`,
+    choices: ["Ton abspielen"],
+    response_ends_trial: false,
+    trial_duration: null,
+    on_load: function () {
+      const audio = resolveSoundToAudio(sound);
+      const display = jsPsych.getDisplayElement();
+      const button = display.querySelector("button");
+
+      if (!button) {
+        jsPsych.finishTrial({ sound_played: false, label });
+        return;
+      }
+
+      let ended = false;
+      const finish = (played) => {
+        if (ended) return;
+        ended = true;
+        jsPsych.finishTrial({
+          sound_played: !!played,
+          label,
+        });
+      };
+
+      button.addEventListener("click", function () {
+        if (ended) return;
+        if (audio) {
+          audio.currentTime = 0;
+          audio.play().catch(() => finish(false));
+          const duration =
+            Number.isFinite(audio.duration) && audio.duration > 0
+              ? audio.duration * 1000
+              : toneDurationMs;
+          audio.addEventListener(
+            "ended",
+            () => {
+              finish(true);
+            },
+            { once: true }
+          );
+          setTimeout(() => finish(true), duration + 200);
+        } else {
+          finish(false);
+        }
+      });
+    },
+  }));
+
+  return { timeline: toneTrials };
+}
+
 /**
  * @param {Array<Object>} list: Array in the following format: {word: string, instruction: string, sound: int}
  * @param {number} rlist: List that will be remembered: 1 or 2
@@ -158,6 +299,22 @@ function createLearningPhase(
     learningTimeline = jsPsych.randomization.shuffle(learningTimeline);
   }
 
+  // Prepopulate test recall list with the EEE words (after shuffling) so they are available later
+  if (testList) {
+    const seen = new Set(cuedRecallTestList);
+    learningTimeline.forEach((item) => {
+      if (
+        item &&
+        item.instruction === "EEE" &&
+        typeof item.word === "string" &&
+        !seen.has(item.word)
+      ) {
+        cuedRecallTestList.push(item.word);
+        seen.add(item.word);
+      }
+    });
+  }
+
   console.log(learningTimeline);
   return {
     timeline: [
@@ -176,7 +333,10 @@ function createLearningPhase(
         css_classes: ["stimulus-large-text"],
         on_load: function () {
           if (testList && jsPsych.timelineVariable("instruction") == "EEE") {
-            cuedRecallTestList.push(jsPsych.timelineVariable("word"));
+            const word = jsPsych.timelineVariable("word");
+            if (!cuedRecallTestList.includes(word)) {
+              cuedRecallTestList.push(word);
+            }
           }
         },
       },
@@ -184,47 +344,33 @@ function createLearningPhase(
         type: jsPsychHtmlKeyboardResponse,
         stimulus: jsPsych.timelineVariable("instruction"),
         choices: "NO_KEYS",
-        trial_duration: 1000,
+        trial_duration: null,
         css_classes: ["stimulus-large-text"],
+        response_ends_trial: false,
         on_load: function () {
           const sound = jsPsych.evaluateTimelineVariable("sound");
-          switch (sound) {
-            case "1":
-              sound1.play();
-              setTimeout(function () {
-                sound1.pause();
-                sound1.currentTime = 0;
-              }, 1000);
-              break;
-            case "2":
-              sound2.play();
-              setTimeout(function () {
-                sound2.pause();
-                sound2.currentTime = 0;
-              }, 1000);
-              break;
-            case "3":
-              sound3.play();
-              setTimeout(function () {
-                sound3.pause();
-                sound3.currentTime = 0;
-              }, 1000);
-              break;
-            case "4":
-              sound4.play();
-              setTimeout(function () {
-                sound4.pause();
-                sound4.currentTime = 0;
-              }, 1000);
-              break;
-            case "5":
-              sound5.play();
-              setTimeout(function () {
-                sound5.pause();
-                sound5.currentTime = 0;
-              }, 1000);
-              break;
+          const audio = resolveSoundToAudio(sound);
+          if (!audio) {
+            console.warn("No valid sound provided for learning phase", sound);
+            return;
           }
+          let finished = false;
+          const finish = () => {
+            if (finished) return;
+            finished = true;
+            jsPsych.finishTrial();
+          };
+          audio.currentTime = 0;
+          audio.play().catch((err) => {
+            console.warn("Audio play failed", err);
+            finish();
+          });
+          audio.addEventListener("ended", finish, { once: true });
+          const duration =
+            (audio && Number.isFinite(audio.duration) && audio.duration > 0
+              ? audio.duration * 1000
+              : 1500) || 1500;
+          setTimeout(finish, duration + 200);
         },
       },
     ],

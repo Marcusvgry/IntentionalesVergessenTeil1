@@ -46,7 +46,7 @@ const demographics_flagged_review = {
       .last(1)
       .values()[0];
     const reviewHtml = last?.markedFormHtml || text_demographics;
-    return `<div class="instructions"><p>Bitte prüfen Sie die markierten Antworten. Sie können fortfahren oder das Experiment beenden.</p></div><div class="demographics-review">${reviewHtml}</div>`;
+    return `<div class="instructions"><p>Bitte prüfen Sie die markierten Antworten.</p></div><div class="demographics-review">${reviewHtml}</div>`;
   },
   choices: ["Weiter", "Experiment beenden"],
   on_finish: function (data) {

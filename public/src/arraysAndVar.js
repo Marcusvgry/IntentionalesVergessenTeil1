@@ -65,7 +65,10 @@ let psqi_components = {
 const EXCLUSION_CONFIG = {
   exclusionCriteria: {
     age: "<18|>35",
-    education: "keine Berufsausbildung|Lehre/Ausbildung",
+    // Mindestanforderung: mind. Fachhochschulreife (Abitur/Fachabitur)
+    school_education: "none|hauptschule|realschule",
+    // Keine/zu niedrige berufliche Qualifikation
+    vocational_education: "none|ausbildung",
 
     // Sprache
     fluency: "no",
@@ -93,8 +96,10 @@ const EXCLUSION_CONFIG = {
   },
   softHardMap: {
     age: "hard",
-    education: "hard",
+    school_education: "hard",
+    vocational_education: "hard",
     fluency: "hard",
+    living_situation: "hard",
     pregnancy: "hard",
     drugs_today: "hard",
     alcohol_today: "hard",

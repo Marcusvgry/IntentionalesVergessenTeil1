@@ -2,7 +2,7 @@ const instructions = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p>Willkommen zur Vergissmeinnicht Studie!</p>
+        <p>Willkommen! Vielen Dank, dass Sie an unserer Studie teilnehmen.</p>
 
 <p>In dieser Studie geht es um das selektive Erinnern von konkreten Begriffen.</p>
 
@@ -20,8 +20,6 @@ const instructions = {
 
 <p>Ihre Aufgabe wird es sein, sich einen Teil der Wörter für einen späteren Gedächtnistest zu merken.</p>
 
-<p>Zwischen der Lernphase für die Wörter und dem Gedächtnistest gibt es einen kurzen Abschnitt, in dem Sie einfache Mathematik-Aufgaben bearbeiten.</p>
-
 <p>Lesen Sie weiter mit dem Button.</p>
 
         </div>`,
@@ -32,14 +30,13 @@ const instructions = {
 
 <p>Erscheint nach einem Wort die Buchstabenkombination <b>VVV</b>, sollen Sie sich das vorangegangene Wort bitte NICHT merken. Sie sollen das Wort dann also vergessen. Die Buchstabenkombination <b>VVV</b> steht hierbei für "Vergessen".</p>
 
-<p>Weiter mit dem Button.</p>
         </div>`,
     `<div class="instructions">
     <p>Als nächstes werden Sie ein Beispiel sehen.</p>
 
 <p>Ein Wort wird auf dem Bildschirm erscheinen. Auf das Wort folgt eine Buchstabenkombination.</p>
 
-<p>Danach sehen Sie ein zweites Wort, auf welches dann auch wieder eine Buchstabenkombination folgt.</p>
+<p>Danach sehen Sie dann noch drei weitere Wörter, auf welche dann auch wieder eine Buchstabenkombination folgt.</p>
 
 <p>Drücken Sie den Button, um das Beispiel zu sehen.</p>
         </div>`,
@@ -53,7 +50,7 @@ const instructions_2 = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p>In diesem Beispiel hätten Sie sich nur das Wort "Sonne" für den späteren Gedächtnistest merken sollen.</p>
+        <p>In diesem Beispiel hätten Sie sich nur die Wörter "Sonne" und "Rose" für den späteren Gedächtnistest merken sollen.</p>
 <p>Das andere Wort hätten Sie vergessen sollen.</p>
         </div>`,
     `<div class="instructions">
@@ -122,6 +119,19 @@ const instructions_unrelatedSound = {
 };
 
 const instructions_6 = {
+  type: jsPsychInstructions,
+  pages: [
+    `<div class="instructions">
+        <p> Das war der Übungsdurchgang. </p>
+        <p> Bevor wir mit der eigentlichen Lernphase beginnen, werden wir Sie noch mit den Tönen vertraut machen, die Sie während der Lernphase hören werden. </p>
+        </div>`,
+  ],
+  show_clickable_nav: true,
+  button_label_next: "Weiter",
+  allow_backward: false,
+};
+
+const instructions_7 = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">

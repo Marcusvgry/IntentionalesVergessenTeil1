@@ -6,6 +6,8 @@ const preloadSounds = {
     soundFiles.sound3,
     soundFiles.sound4,
     soundFiles.sound5,
+    soundFiles.bsp_e,
+    soundFiles.bsp_v,
   ],
   show_progress_bar: false,
 };
@@ -135,7 +137,7 @@ const playUnrelatedSound = {
   stimulus: () => resolveUnrelatedSoundStimulus(),
   prompt: '<div style="font-size: 60px;">+</div>',
   choices: "NO_KEYS",
-  trial_duration: 2500,
+  trial_duration: 3500,
   on_start: function (trial) {
     trial.stimulus = resolveUnrelatedSoundStimulus();
   },
@@ -143,7 +145,7 @@ const playUnrelatedSound = {
 
 const playUnrelatedSoundTimeline = {
   timeline: [playUnrelatedSound],
-  repetitions: 12,
+  repetitions: 8,
 };
 
 const buildConfidenceToneTimelineVariables = () => [

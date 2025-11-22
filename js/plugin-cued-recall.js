@@ -47,13 +47,36 @@ var cuedRecall = (function (jspsych) {
       let firstKeypressTime = null;
       let currentWordIndex = 0;
 
-      let wordsToDisplay = trial.string_to_display.slice();
+      let wordsToDisplay = Array.isArray(trial.string_to_display)
+        ? trial.string_to_display.slice()
+        : [];
+
+      if (wordsToDisplay.length === 0) {
+        console.warn(
+          "cuedRecall: string_to_display is empty or invalid.",
+          trial.string_to_display
+        );
+        display_element.innerHTML = `
+          <div id="jspsych-cued-recall" class="survey-container">
+            <p class="jspsych-prompt">${trial.prompt}</p>
+            <p class="jspsych-prompt">Keine W��rter zum Abruf konfiguriert.</p>
+          </div>
+        `;
+        this.jsPsych.finishTrial({
+          responses: [],
+          randomized_order: [],
+          data: trial.data,
+          error: "string_to_display_empty",
+        });
+        return;
+      }
+
       if (trial.randomized) {
         wordsToDisplay = this.shuffleArray(wordsToDisplay);
       }
 
       function getFirstTwoLetters(word) {
-        return word.slice(0, 2);
+        return typeof word === "string" ? word.slice(0, 2) : "";
       }
 
       let html = `

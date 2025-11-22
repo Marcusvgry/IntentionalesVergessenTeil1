@@ -92,14 +92,22 @@ const buildFromVPNTrial = {
           bsp_v,
           bsp_e,
           bsp_v,
-          false
+          false,
+          true
         ),
+
         instructions_4,
         freeRecallWoerter,
         instructions_5,
         cuedRecallTrial,
         instructions_6,
-
+        buildToneLearningTimeline({
+          rememberSleep: selected_tmrsound,
+          forgetSleep: selected_tmfsound,
+          remember: selected_rsound,
+          forget: selected_fsound,
+        }),
+        instructions_7,
         createLearningPhase(
           wordList,
           listToRemember,
