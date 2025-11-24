@@ -18,8 +18,8 @@ const CBC_VPNNummer = {
   preamble: ``,
   html: `
         <div class="survey-container">
-    <p>Participant-ID</p>
-    <input type="number" id="Participant-ID" name="Participant-ID" required class="input-field"/>
+    <p>Probandennummer</p>
+    <input type="number" id="Probandennummer" name="Probandennummer" required class="input-field"/>
 
     <p> Heutiges Datum</p>
     <input type="date" id="Heutiges-Datum" name="Heutiges-Datum" required class="input-field"/>

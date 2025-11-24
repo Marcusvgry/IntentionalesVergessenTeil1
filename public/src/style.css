@@ -413,23 +413,28 @@ body {
 
 /* CUSTOM ADDITIONS TO THE JSPSYCH STANDARD TEMPLATE */
 .questions {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 12px;
   text-align: justify;
-  margin-top: 30px;
-  margin-bottom: 30px;
 }
 
 .instructions {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 12px;
   text-align: justify;
-  margin-top: 30px;
-  margin-bottom: 30px;
   font-size: 20px;
+  line-height: 1.6;
 }
 
 .instructions_c {
+  max-width: 800px;
+  margin: 30px auto;
+  padding: 0 12px;
   text-align: center;
-  margin-top: 30px;
-  margin-bottom: 30px;
   font-size: 20px;
+  line-height: 1.6;
 }
 
 .large-select {
@@ -456,6 +461,13 @@ body {
   padding: 0.2em;
   width: 100px;
   background-color: #efefef;
+}
+
+/* Constrain slider trials */
+.jspsych-html-slider-response .jspsych-content {
+  max-width: 800px;
+  margin: 0 auto 20px;
+  padding: 0 12px;
 }
 
 .small-text-field {
@@ -546,20 +558,27 @@ vs. not (yet) counting up */
 /* Tables with radio buttons */
 table.likert-table {
   border-collapse: collapse;
-  width: "100%";
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 20px;
 }
 .likert-table th,
 .likert-table td {
-  padding: 5px;
+  padding: 8px 10px;
   border: solid 1px #777;
+  vertical-align: middle;
+  text-align: center;
+  white-space: normal;
 }
 .likert-table th {
   background-color: #5eaf99;
 }
+.likert-table th:first-child {
+  text-align: left;
+}
 .likert-table td {
   align-items: center; /* vertical centering */
   justify-content: center; /* horizontal centering */
-  padding: 5px;
   border: solid 1px #777;
 }
 

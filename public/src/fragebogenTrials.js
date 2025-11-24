@@ -592,7 +592,7 @@ var pittsburgh2 = {
   preamble: () => psqi_preamble,
   html: () => {
     // QUESTION 5, a - j
-    stim = `<table class="likert-table">
+    let stim = `<div class="questions"><table class="likert-table">
       <tr>
         <th align ="left" style="font-size: 14px;">${psqi_table_note}</th>`;
 
@@ -684,7 +684,7 @@ var pittsburgh2 = {
       stim = stim + `</tr>`;
     }
 
-    stim = stim + `</table><br>`;
+    stim = stim + `</table><br></div>`;
 
     return stim;
   },
