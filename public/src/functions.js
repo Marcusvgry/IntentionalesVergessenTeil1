@@ -212,53 +212,170 @@ function buildToneLearningTimeline({
     },
   ];
 
+  const maxReplays = 2;
+
   const toneTrials = tones.map(({ label, sound }) => ({
-    type: jsPsychHtmlButtonResponse,
+    type: jsPsychHtmlKeyboardResponse,
     stimulus: `<div class="instructions"><p>${label}</p></div>`,
-    choices: ["Ton abspielen"],
+    choices: "NO_KEYS",
     response_ends_trial: false,
     trial_duration: null,
+    prompt: `
+      <div class="tone-button-row" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 16px;">
+        <button type="button" id="tone-replay-btn" class="jspsych-btn secondary-btn">Ton nochmal abspielen</button>
+        <button type="button" id="tone-next-btn" class="jspsych-btn">Nächsten Ton abspielen</button>
+      </div>
+    `,
     on_load: function () {
       const audio = resolveSoundToAudio(sound);
       const display = jsPsych.getDisplayElement();
-      const button = display.querySelector("button");
+      const replayBtn = display.querySelector("#tone-replay-btn");
+      const nextBtn = display.querySelector("#tone-next-btn");
 
-      if (!button) {
-        jsPsych.finishTrial({ sound_played: false, label });
+      if (!replayBtn || !nextBtn) {
+        jsPsych.finishTrial({
+          sound_played: false,
+          label,
+          replay_count: 0,
+          total_plays: 0,
+        });
         return;
       }
 
-      let ended = false;
-      const finish = (played) => {
-        if (ended) return;
-        ended = true;
+      let replayCount = 0;
+      let totalPlays = 0;
+      let finished = false;
+      let isPlaying = false;
+      let endTimeout = null;
+      let currentEndHandler = null;
+
+      const setButtonsDisabled = (disabled) => {
+        replayBtn.disabled = disabled || replayCount >= maxReplays;
+        nextBtn.disabled = disabled;
+      };
+
+      const clearEndWatchers = () => {
+        if (
+          currentEndHandler &&
+          audio &&
+          typeof audio.removeEventListener === "function"
+        ) {
+          audio.removeEventListener("ended", currentEndHandler);
+        }
+        currentEndHandler = null;
+        if (endTimeout) {
+          clearTimeout(endTimeout);
+          endTimeout = null;
+        }
+      };
+
+      const finishTrial = (played) => {
+        if (finished) return;
+        finished = true;
+        setButtonsDisabled(true);
+        clearEndWatchers();
+        if (audio && typeof audio.pause === "function") {
+          audio.pause();
+        }
         jsPsych.finishTrial({
           sound_played: !!played,
           label,
+          replay_count: replayCount,
+          total_plays: totalPlays,
         });
       };
 
-      button.addEventListener("click", function () {
-        if (ended) return;
-        if (audio) {
-          audio.currentTime = 0;
-          audio.play().catch(() => finish(false));
-          const duration =
-            Number.isFinite(audio.duration) && audio.duration > 0
-              ? audio.duration * 1000
-              : toneDurationMs;
-          audio.addEventListener(
-            "ended",
-            () => {
-              finish(true);
-            },
-            { once: true }
-          );
-          setTimeout(() => finish(true), duration + 200);
+      const resolveDuration = () => {
+        if (audio && Number.isFinite(audio.duration) && audio.duration > 0) {
+          return audio.duration * 1000;
+        }
+        return toneDurationMs;
+      };
+
+      const playTone = (onEnd) => {
+        if (isPlaying) return false;
+        if (!audio) {
+          if (typeof onEnd === "function") {
+            onEnd(false);
+          }
+          return false;
+        }
+
+        clearEndWatchers();
+
+        if (typeof audio.pause === "function") {
+          audio.pause();
+        }
+        audio.currentTime = 0;
+        isPlaying = true;
+
+        const wrappedEnd = (wasOk) => {
+          if (!isPlaying) return;
+          isPlaying = false;
+          clearEndWatchers();
+          if (typeof onEnd === "function") {
+            onEnd(wasOk);
+          }
+        };
+
+        currentEndHandler = () => wrappedEnd(true);
+        if (typeof audio.addEventListener === "function") {
+          audio.addEventListener("ended", currentEndHandler, { once: true });
+        }
+
+        const duration = resolveDuration();
+        endTimeout = setTimeout(() => wrappedEnd(true), duration + 200);
+
+        const playPromise = audio.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch((err) => {
+            console.warn("Audio play failed", err);
+            wrappedEnd(false);
+          });
+        }
+
+        return true;
+      };
+
+      const startInitialPlayback = () => {
+        if (!audio) {
+          setButtonsDisabled(false);
+          return;
+        }
+        setButtonsDisabled(true);
+        const played = playTone(() => {
+          setButtonsDisabled(false);
+        });
+        if (played) {
+          totalPlays += 1;
         } else {
-          finish(false);
+          setButtonsDisabled(false);
+        }
+      };
+
+      replayBtn.addEventListener("click", () => {
+        if (finished || replayCount >= maxReplays || isPlaying) return;
+        setButtonsDisabled(true);
+        const played = playTone(() => {
+          setButtonsDisabled(false);
+        });
+        if (played) {
+          replayCount += 1;
+          totalPlays += 1;
+        } else {
+          setButtonsDisabled(false);
         }
       });
+
+      nextBtn.addEventListener("click", () => {
+        if (finished) return;
+        if (isPlaying) return;
+        setButtonsDisabled(true);
+        finishTrial(totalPlays > 0);
+      });
+
+      // Play each tone once automatically when the trial loads; replays come from the replay button.
+      startInitialPlayback();
     },
   }));
 

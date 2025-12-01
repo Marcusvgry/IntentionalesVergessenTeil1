@@ -108,6 +108,7 @@ const buildFromVPNTrial = {
           forget: selected_fsound,
         }),
         instructions_7,
+
         createLearningPhase(
           wordList,
           listToRemember,

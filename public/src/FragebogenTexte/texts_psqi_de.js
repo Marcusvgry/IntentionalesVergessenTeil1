@@ -56,8 +56,8 @@ var pittsburghQuestions1 = [
   `e. weil Sie husten mussten oder laut geschnarcht haben?`,
   `f. weil Ihnen zu kalt war?`,
   `g. weil Ihnen zu warm war?`,
-  `h. weil Ihnen schlecht geträumt hat?`,
-  `i. weil Ihnen Schmerzen hatten?`,
+  `h. weil Sie schlecht geträumt haben?`,
+  `i. weil Sie Schmerzen hatten?`,
   `j. aus anderen Gründen?`,
 ];
 

@@ -38,6 +38,8 @@ const instructions = {
 
 <p>Danach sehen Sie dann noch drei weitere Wörter, auf welche dann auch wieder eine Buchstabenkombination folgt.</p>
 
+<p> Zusammen mit der Buchstabenkombination wird außerdem ein Ton abgespielt. Jeder Ton wird entweder NUR mit der Buchstabenkombination <b>EEE</b> oder NUR mit der Buchstabenkombination <b>VVV</b> abgespielt.</p> 
+
 <p>Drücken Sie den Button, um das Beispiel zu sehen.</p>
         </div>`,
   ],
@@ -110,7 +112,7 @@ const instructions_unrelatedSound = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p>Bevor Sie mit der eigentlichen Aufgabe beginnen, werden wir Ihnen noch einen Ton präsentieren. Hierbei müssen Sie nichts tun und keine Aufgabe erledigen. Bitte hören Sie trotzdem aufmerksamk zu und schauen Sie auf das Kreuz in der Mitte des Bildschirms</p>
+        <p>Bevor Sie mit der eigentlichen Aufgabe beginnen, werden wir Ihnen noch einen Ton präsentieren. Hierbei müssen Sie nichts tun und keine Aufgabe erledigen. Bitte hören Sie trotzdem aufmerksam zu und schauen Sie auf das Kreuz in der Mitte des Bildschirms.</p>
       </div>`,
   ],
   show_clickable_nav: true,
@@ -124,6 +126,9 @@ const instructions_6 = {
     `<div class="instructions">
         <p> Das war der Übungsdurchgang. </p>
         <p> Bevor wir mit der eigentlichen Lernphase beginnen, werden wir Sie noch mit den Tönen vertraut machen, die Sie während der Lernphase hören werden. </p>
+        <p> Insgesamt gibt es in der Lernphase vier verschieden Töne. Zwei davon werden nur mit der Buchstabenkombination <b>EEE</b> und zwei nur mit der Buchstabenkombination <b>VVV</b> abgespielt. </p>
+        <p> Wenn Sie auf "Weiter" klicken, wird der erste Ton abgespielt. In der Anweisung steht außerdem, ob der Ton mit <b>EEE</b> oder <b>VVV</b> abgespielt wird. </p>
+        <p> Insgesamt können Sie sich jeden Ton bis zu dreimal anhören. </p>
         </div>`,
   ],
   show_clickable_nav: true,

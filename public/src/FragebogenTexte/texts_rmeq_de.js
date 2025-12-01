@@ -1,5 +1,5 @@
 const meq_instr_text = `<div class="instructions">
-    <p>Im folgenden werden Ihnen ein paar Fragen zu Ihrem typischen Tagesrhythmus stellen.<br>
+    <p>Im folgenden werden Ihnen ein paar Fragen zu Ihrem typischen Tagesrhythmus gestellt.<br>
     Bitte lesen Sie jede Frage genau, bevor Sie sie beantworten.<br>
     Jede Frage sollte unabhängig von den vorherigen Fragen beantwortet werden.<br>
     Wählen Sie jeweils die Antwort, die am besten auf Sie und Ihren Tagesrhythmus zutrifft.

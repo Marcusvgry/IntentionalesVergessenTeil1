@@ -271,7 +271,7 @@ const text_demographics = `
     </div>
 
         <p>Nehmen Sie derzeit Medikamente zu sich (in den letzten paar Tagen)?: 
-      <select class="large-select" name="smoking_today" onchange="checkOther(this.value, 'ja', 'medication_block', null, null)">
+      <select class="large-select" name="medication_recent" onchange="checkOther(this.value, 'ja', 'medication_block', null, null)">
         <option value=""></option>
         <option value="ja">ja</option>
         <option value="nein">nein</option>
