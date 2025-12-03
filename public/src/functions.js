@@ -2,95 +2,42 @@ function startExperiment() {
   createTimeline();
   jsPsych.run(timeline);
 }
+
 /**
- * @param {Array<string>} list: Full list of Words
- * @param {number} rlist: List that will be remembered: 1 or 2
- * @param {number} tmrsound: Sound that is played alongside remember Words and is played during sleep (1, 2, 3, 4)
- * @param {number} tmfsound: Sound that is played alongside forget Words and is played during sleep (1, 2, 3, 4)
- * @param {number} rsound: Sound that is played alongside remember Words (1, 2, 3, 4)
- * @param {number} fsound: Sound that is played alongside forget Words (1, 2, 3, 4)
- * @returns {Array<Object>}: Array in the timelinevariable Format of {word: string, instruction: string, sound: int}
+ * @param {Array<string>} tmrlist List that will be paired with tmrsound (remember + reaktiviert)
+ * @param {Array<string>} tmflist List that will be paired with tmfsound (vergessen + reaktiviert)
+ * @param {Array<string>} rlist List that will be paired with rsound (remember + nicht reaktiviert)
+ * @param {Array<string>} flist List that will be paired with fsound (vergessen + nicht reaktiviert)
+ * @param {number|string} tmrsound Sound that is played alongside remember words and is played during sleep (1-4)
+ * @param {number|string} tmfsound Sound that is played alongside forget words and is played during sleep (1-4)
+ * @param {number|string} rsound Sound that is played alongside remember words (1-4)
+ * @param {number|string} fsound Sound that is played alongside forget words (1-4)
+ * @returns {Array<Object>} Array in the timelinevariable Format of {word: string, instruction: string, sound: int}
  */
-function createWordLists(list, rlist, tmrsound, tmfsound, rsound, fsound) {
-  var wordList = list;
-  var length = wordList.length;
-  var listcomplete = [];
-  var listA = jsPsych.randomization.repeat(wordList.slice(0, length / 2), 1);
-  var listB = jsPsych.randomization.repeat(
-    wordList.slice(length / 2, length),
-    1
+function createWordLists(
+  tmrlist,
+  tmflist,
+  rlist,
+  flist,
+  tmrsound,
+  tmfsound,
+  rsound,
+  fsound
+) {
+  const listcomplete = [];
+
+  (tmrlist || []).forEach((word) =>
+    listcomplete.push({ word, instruction: "EEE", sound: tmrsound })
   );
-
-  console.log("listA:", listA);
-  console.log("listB:", listB);
-  console.log("rlist:", rlist);
-
-  if (rlist === "1") {
-    var listA_tmrsound = listA.slice(0, length / 4);
-    var listA_r = listA.slice(length / 4, length / 2);
-
-    var listB_tmf = listB.slice(0, length / 4);
-    var listB_f = listB.slice(length / 4, length / 2);
-
-    console.log("listA_tmrsound:", listA_tmrsound);
-    console.log("listA_r:", listA_r);
-    console.log("listB_tmf:", listB_tmf);
-    console.log("listB_f:", listB_f);
-
-    for (let i = 0; i < length / 4; i++) {
-      listcomplete.push({
-        word: listA_tmrsound[i],
-        instruction: "EEE",
-        sound: tmrsound,
-      });
-      listcomplete.push({
-        word: listA_r[i],
-        instruction: "EEE",
-        sound: rsound,
-      });
-      listcomplete.push({
-        word: listB_tmf[i],
-        instruction: "VVV",
-        sound: tmfsound,
-      });
-      listcomplete.push({
-        word: listB_f[i],
-        instruction: "VVV",
-        sound: fsound,
-      });
-      console.log({ word: listB_f[i], instruction: "VVV", sound: fsound });
-    }
-  } else if (rlist === "2") {
-    var listA_tmf = listA.slice(0, length / 4);
-    var listA_f = listA.slice(length / 4, length / 2);
-
-    var listB_tmrsound = listB.slice(0, length / 4);
-    var listB_r = listB.slice(length / 4, length / 2);
-
-    for (let i = 0; i < length / 4; i++) {
-      listcomplete.push({
-        word: listA_tmf[i],
-        instruction: "VVV",
-        sound: tmfsound,
-      });
-      listcomplete.push({
-        word: listA_f[i],
-        instruction: "VVV",
-        sound: fsound,
-      });
-      listcomplete.push({
-        word: listB_tmrsound[i],
-        instruction: "EEE",
-        sound: tmrsound,
-      });
-      listcomplete.push({
-        word: listB_r[i],
-        instruction: "EEE",
-        sound: rsound,
-      });
-    }
-  }
-  console.log("listcomplete:", listcomplete);
+  (rlist || []).forEach((word) =>
+    listcomplete.push({ word, instruction: "EEE", sound: rsound })
+  );
+  (tmflist || []).forEach((word) =>
+    listcomplete.push({ word, instruction: "VVV", sound: tmfsound })
+  );
+  (flist || []).forEach((word) =>
+    listcomplete.push({ word, instruction: "VVV", sound: fsound })
+  );
   return listcomplete;
 }
 
@@ -383,17 +330,22 @@ function buildToneLearningTimeline({
 }
 
 /**
- * @param {Array<Object>} list: Array in the following format: {word: string, instruction: string, sound: int}
- * @param {number} rlist: List that will be remembered: 1 or 2
- * @param {number} tmrsound: Sound that is played alongside remember Words and is played during sleep (1, 2, 3, 4)
- * @param {number} tmfsound: Sound that is played alongside forget Words and is played during sleep (1, 2, 3, 4)
- * @param {number} rsound: Sound that is played alongside remember Words (1, 2, 3, 4)
- * @param {number} fsound: Sound that is played alongside forget Words (1, 2, 3, 4)
- * @param {boolean} counterPrimRec: Whether to counteract primacy and recency effects
+ * @param {Array<string>} tmrlist Words for remember + reaktiviert
+ * @param {Array<string>} tmflist Words for vergessen + reaktiviert
+ * @param {Array<string>} rlist Words for remember + nicht reaktiviert
+ * @param {Array<string>} flist Words for vergessen + nicht reaktiviert
+ * @param {number|string} tmrsound Sound that is played alongside remember words and is played during sleep (1-4)
+ * @param {number|string} tmfsound Sound that is played alongside forget words and is played during sleep (1-4)
+ * @param {number|string} rsound Sound that is played alongside remember words (1-4)
+ * @param {number|string} fsound Sound that is played alongside forget words (1-4)
+ * @param {boolean} counterPrimRec Whether to counteract primacy and recency effects
+ * @param {boolean} [testList] Whether to add EEE words to the cued recall test list
  */
 function createLearningPhase(
-  list,
+  tmrlist,
+  tmflist,
   rlist,
+  flist,
   tmrsound,
   tmfsound,
   rsound,
@@ -402,8 +354,10 @@ function createLearningPhase(
   testList
 ) {
   let learningTimeline = createWordLists(
-    list,
+    tmrlist,
+    tmflist,
     rlist,
+    flist,
     tmrsound,
     tmfsound,
     rsound,

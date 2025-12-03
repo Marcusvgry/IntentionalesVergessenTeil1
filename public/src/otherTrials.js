@@ -36,49 +36,89 @@ const CBC_VPNNummer = {
   <label for="Wortliste2" class="condition-label">2</label>
 </div>
 
-  <p>Erinnert + Reaktiviert</p>
-  <select name="Erinnert + Reaktiviert" id="Erinnert + Reaktiviert" required class="condition-select">
-    <option value=""  –</option>
-    <option value="1">Sound 1</option>
-    <option value="2">Sound 2</option>
-    <option value="3">Sound 3</option>
-    <option value="4">Sound 4</option>
-    <option value="5">Sound 5</option>
-  </select>
+  <div class="condition-block">
+    <p>Erinnert + Reaktiviert</p>
+    <label for="Erinnert-Reaktiviert-Ton">Ton</label>
+    <select name="Erinnert + Reaktiviert Ton" id="Erinnert-Reaktiviert-Ton" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Sound 1</option>
+      <option value="2">Sound 2</option>
+      <option value="3">Sound 3</option>
+      <option value="4">Sound 4</option>
+    </select>
+    <label for="Erinnert-Reaktiviert-Liste">Liste</label>
+    <select name="Erinnert + Reaktiviert Liste" id="Erinnert-Reaktiviert-Liste" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Liste 1</option>
+      <option value="2">Liste 2</option>
+      <option value="3">Liste 3</option>
+      <option value="4">Liste 4</option>
+    </select>
+  </div>
 
-  <p>Vergessen + Reaktiviert</p>
-  <select name="Vergessen + Reaktiviert" id="Vergessen + Reaktiviert" required class="condition-select">
-    <option value=""  –</option>
-    <option value="1">Sound 1</option>
-    <option value="2">Sound 2</option>
-    <option value="3">Sound 3</option>
-    <option value="4">Sound 4</option>
-    <option value="5">Sound 5</option>
-  </select>
+  <div class="condition-block">
+    <p>Vergessen + Reaktiviert</p>
+    <label for="Vergessen-Reaktiviert-Ton">Ton</label>
+    <select name="Vergessen + Reaktiviert Ton" id="Vergessen-Reaktiviert-Ton" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Sound 1</option>
+      <option value="2">Sound 2</option>
+      <option value="3">Sound 3</option>
+      <option value="4">Sound 4</option>
+    </select>
+    <label for="Vergessen-Reaktiviert-Liste">Liste</label>
+    <select name="Vergessen + Reaktiviert Liste" id="Vergessen-Reaktiviert-Liste" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Liste 1</option>
+      <option value="2">Liste 2</option>
+      <option value="3">Liste 3</option>
+      <option value="4">Liste 4</option>
+    </select>
+  </div>
 
-  <p>Erinnert + Nicht-Reaktiviert</p>
-  <select name="Erinnert + Nicht-Reaktiviert" id="Erinnert + Nicht-Reaktiviert" required class="condition-select">
-    <option value=""  –</option>
-    <option value="1">Sound 1</option>
-    <option value="2">Sound 2</option>
-    <option value="3">Sound 3</option>
-    <option value="4">Sound 4</option>
-    <option value="5">Sound 5</option>
-  </select>
+  <div class="condition-block">
+    <p>Erinnert + Nicht-Reaktiviert</p>
+    <label for="Erinnert-NichtReaktiviert-Ton">Ton</label>
+    <select name="Erinnert + Nicht-Reaktiviert Ton" id="Erinnert-NichtReaktiviert-Ton" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Sound 1</option>
+      <option value="2">Sound 2</option>
+      <option value="3">Sound 3</option>
+      <option value="4">Sound 4</option>
+    </select>
+    <label for="Erinnert-NichtReaktiviert-Liste">Liste</label>
+    <select name="Erinnert + Nicht-Reaktiviert Liste" id="Erinnert-NichtReaktiviert-Liste" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Liste 1</option>
+      <option value="2">Liste 2</option>
+      <option value="3">Liste 3</option>
+      <option value="4">Liste 4</option>
+    </select>
+  </div>
 
-  <p>Vergessen + Nicht-Reaktiviert</p>
-  <select name="Vergessen + Nicht-Reaktiviert" id="Vergessen + Nicht-Reaktiviert" required class="condition-select">
-    <option value=""  –</option>
-    <option value="1">Sound 1</option>
-    <option value="2">Sound 2</option>
-    <option value="3">Sound 3</option>
-    <option value="4">Sound 4</option>
-    <option value="5">Sound 5</option>
-  </select>
+  <div class="condition-block">
+    <p>Vergessen + Nicht-Reaktiviert</p>
+    <label for="Vergessen-NichtReaktiviert-Ton">Ton</label>
+    <select name="Vergessen + Nicht-Reaktiviert Ton" id="Vergessen-NichtReaktiviert-Ton" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Sound 1</option>
+      <option value="2">Sound 2</option>
+      <option value="3">Sound 3</option>
+      <option value="4">Sound 4</option>
+    </select>
+    <label for="Vergessen-NichtReaktiviert-Liste">Liste</label>
+    <select name="Vergessen + Nicht-Reaktiviert Liste" id="Vergessen-NichtReaktiviert-Liste" required class="condition-select">
+      <option value="">-</option>
+      <option value="1">Liste 1</option>
+      <option value="2">Liste 2</option>
+      <option value="3">Liste 3</option>
+      <option value="4">Liste 4</option>
+    </select>
+  </div>
 
   <p>Unasoziierter Ton</p>
   <select name="Unasoziierter Ton" id="Unasoziierter Ton" required class="condition-select">
-    <option value=""  –</option>
+    <option value="">-</option>
     <option value="1">Sound 1</option>
     <option value="2">Sound 2</option>
     <option value="3">Sound 3</option>
@@ -89,15 +129,37 @@ const CBC_VPNNummer = {
   
 </div>
     
-`,
+`, 
   on_finish: function (data) {
     const responses = data.response;
-    selected_tmrsound = responses["Erinnert + Reaktiviert"];
-    selected_tmfsound = responses["Vergessen + Reaktiviert"];
-    selected_rsound = responses["Erinnert + Nicht-Reaktiviert"];
-    selected_fsound = responses["Vergessen + Nicht-Reaktiviert"];
-    selected_sound5 = responses["Unasoziierter Ton"];
-    selectedCondition = responses["Wortliste"];
+    const toNumber = (val, fallback) => {
+      const n = Number(val);
+      return Number.isFinite(n) ? n : fallback;
+    };
+
+    selected_tmrsound = toNumber(responses["Erinnert + Reaktiviert Ton"], 1);
+    selected_tmfsound = toNumber(responses["Vergessen + Reaktiviert Ton"], 2);
+    selected_rsound = toNumber(
+      responses["Erinnert + Nicht-Reaktiviert Ton"],
+      3
+    );
+    selected_fsound = toNumber(
+      responses["Vergessen + Nicht-Reaktiviert Ton"],
+      4
+    );
+    selected_sound5 = toNumber(responses["Unasoziierter Ton"], 5);
+
+    selected_tmr_list = toNumber(responses["Erinnert + Reaktiviert Liste"], 1);
+    selected_tmf_list = toNumber(responses["Vergessen + Reaktiviert Liste"], 2);
+    selected_r_list = toNumber(
+      responses["Erinnert + Nicht-Reaktiviert Liste"],
+      3
+    );
+    selected_f_list = toNumber(
+      responses["Vergessen + Nicht-Reaktiviert Liste"],
+      4
+    );
+    listToRemember = responses["Wortliste"];
     confidenceCheckTonesTimeline.timeline_variables =
       buildConfidenceToneTimelineVariables();
     settingsDone = true;

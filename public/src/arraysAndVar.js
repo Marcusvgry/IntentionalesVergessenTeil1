@@ -3,7 +3,11 @@ var listToRemember,
   selected_tmfsound,
   selected_rsound,
   selected_fsound,
-  selected_sound5;
+  selected_sound5,
+  selected_tmr_list,
+  selected_tmf_list,
+  selected_r_list,
+  selected_f_list;
 
 const soundFiles = {
   sound1: "../sounds/tone_A.wav",

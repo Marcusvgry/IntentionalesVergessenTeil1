@@ -33,6 +33,50 @@ const wordList = [
   "Wald",
 ];
 
+const wordList1 = [
+  "Ecke",
+  "Gift",
+  "Brett",
+  "Dampf",
+  "Tier",
+  "Grab",
+  "Hose",
+  "Erde",
+];
+
+const wordList2 = [
+  "Baden",
+  "Berg",
+  "Seil",
+  "Vieh",
+  "Boden",
+  "Haut",
+  "Auto",
+  "Blut",
+];
+
+const wordList3 = [
+  "Gold",
+  "Kalk",
+  "Fluss",
+  "Geld",
+  "Ofen",
+  "Kind",
+  "Meer",
+  "Heer",
+];
+
+const wordList4 = [
+  "Apfel",
+  "Buch",
+  "Moor",
+  "Pelz",
+  "Eisen",
+  "Luft",
+  "Allee",
+  "Wald",
+];
+
 const wordListTest = [
   "Prinz",
   "Tropfen",
@@ -48,4 +92,14 @@ const wordListTest = [
   "Uhr",
 ];
 
+const wordListTest1 = ["Prinz", "Tropfen", "Arbeit"];
+const wordListTest2 = ["Hase", "Wein", "Montag"];
+const wordListTest3 = ["Herd", "Kaelte", "Kabel"];
+const wordListTest4 = ["Banane", "Tuer", "Uhr"];
+
 const wordListExample = ["Sonne", "Rose", "Sumpf", "Toast"];
+
+const wordListExample1 = ["Sonne"];
+const wordListExample2 = ["Rose"];
+const wordListExample3 = ["Sumpf"];
+const wordListExample4 = ["Toast"];
