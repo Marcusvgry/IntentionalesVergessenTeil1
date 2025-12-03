@@ -17,119 +17,134 @@ const CBC_VPNNummer = {
   type: jsPsychSurveyHtmlForm,
   preamble: ``,
   html: `
-        <div class="survey-container">
-    <p>Probandennummer</p>
-    <input type="number" id="Probandennummer" name="Probandennummer" required class="input-field"/>
+        <style>
+          .cbc-form { width: 100%; max-width: 1100px; margin: 0 auto; }
+          .cbc-row { display: flex; gap: 16px; flex-wrap: wrap; }
+          .cbc-row .field { flex: 1 1 260px; min-width: 220px; }
+          .cbc-grid { display: grid; grid-template-columns: repeat(4, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+          .cbc-grid .title { font-weight: bold; text-align: center; }
+          .cbc-grid .cell label { display: block; margin-bottom: 4px; text-align: center; }
+          .cbc-grid .cell select { width: 100%; }
+        </style>
+        <div class="survey-container cbc-form">
+    <div class="cbc-row">
+      <div class="field">
+        <p>Probandennummer</p>
+        <input type="number" id="Probandennummer" name="Probandennummer" required class="input-field"/>
+      </div>
+      <div class="field">
+        <p>Heutiges Datum</p>
+        <input type="date" id="Heutiges-Datum" name="Heutiges-Datum" required class="input-field"/>
+      </div>
+      <div class="field">
+        <p>Name der Messperson</p>
+        <input type="text" id="Name-der-Messperson" name="Name-der-Messperson" required class="input-field"/>
+      </div>
+    </div>
 
-    <p> Heutiges Datum</p>
-    <input type="date" id="Heutiges-Datum" name="Heutiges-Datum" required class="input-field"/>
+    <div class="cbc-grid">
+      <div class="title">Erinnert + Reaktiviert</div>
+      <div class="title">Vergessen + Reaktiviert</div>
+      <div class="title">Erinnert + Nicht-Reaktiviert</div>
+      <div class="title">Vergessen + Nicht-Reaktiviert</div>
 
-    <p> Name der Messperson</p>
-    <input type="text" id="Name-der-Messperson" name="Name-der-Messperson" required class="input-field"/>
+      <div class="cell">
+        <label for="Erinnert-Reaktiviert-Ton">Ton</label>
+        <select name="Erinnert + Reaktiviert Ton" id="Erinnert-Reaktiviert-Ton" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Sound 1</option>
+          <option value="2">Sound 2</option>
+          <option value="3">Sound 3</option>
+          <option value="4">Sound 4</option>
+        </select>
+      </div>
+      <div class="cell">
+        <label for="Vergessen-Reaktiviert-Ton">Ton</label>
+        <select name="Vergessen + Reaktiviert Ton" id="Vergessen-Reaktiviert-Ton" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Sound 1</option>
+          <option value="2">Sound 2</option>
+          <option value="3">Sound 3</option>
+          <option value="4">Sound 4</option>
+        </select>
+      </div>
+      <div class="cell">
+        <label for="Erinnert-NichtReaktiviert-Ton">Ton</label>
+        <select name="Erinnert + Nicht-Reaktiviert Ton" id="Erinnert-NichtReaktiviert-Ton" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Sound 1</option>
+          <option value="2">Sound 2</option>
+          <option value="3">Sound 3</option>
+          <option value="4">Sound 4</option>
+        </select>
+      </div>
+      <div class="cell">
+        <label for="Vergessen-NichtReaktiviert-Ton">Ton</label>
+        <select name="Vergessen + Nicht-Reaktiviert Ton" id="Vergessen-NichtReaktiviert-Ton" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Sound 1</option>
+          <option value="2">Sound 2</option>
+          <option value="3">Sound 3</option>
+          <option value="4">Sound 4</option>
+        </select>
+      </div>
 
-    <p>Wortliste Lernen</p>
-    <div class="condition-radio">
-  <input type="radio" id="Wortliste1" name="Wortliste" value="1" required class="condition-radio-input"/>
-  <label for="Wortliste1" class="condition-label">1</label>
+      <div class="cell">
+        <label for="Erinnert-Reaktiviert-Liste">Liste</label>
+        <select name="Erinnert + Reaktiviert Liste" id="Erinnert-Reaktiviert-Liste" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Liste 1</option>
+          <option value="2">Liste 2</option>
+          <option value="3">Liste 3</option>
+          <option value="4">Liste 4</option>
+        </select>
+      </div>
+      <div class="cell">
+        <label for="Vergessen-Reaktiviert-Liste">Liste</label>
+        <select name="Vergessen + Reaktiviert Liste" id="Vergessen-Reaktiviert-Liste" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Liste 1</option>
+          <option value="2">Liste 2</option>
+          <option value="3">Liste 3</option>
+          <option value="4">Liste 4</option>
+        </select>
+      </div>
+      <div class="cell">
+        <label for="Erinnert-NichtReaktiviert-Liste">Liste</label>
+        <select name="Erinnert + Nicht-Reaktiviert Liste" id="Erinnert-NichtReaktiviert-Liste" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Liste 1</option>
+          <option value="2">Liste 2</option>
+          <option value="3">Liste 3</option>
+          <option value="4">Liste 4</option>
+        </select>
+      </div>
+      <div class="cell">
+        <label for="Vergessen-NichtReaktiviert-Liste">Liste</label>
+        <select name="Vergessen + Nicht-Reaktiviert Liste" id="Vergessen-NichtReaktiviert-Liste" required class="condition-select">
+          <option value="">-</option>
+          <option value="1">Liste 1</option>
+          <option value="2">Liste 2</option>
+          <option value="3">Liste 3</option>
+          <option value="4">Liste 4</option>
+        </select>
+      </div>
+    </div>
 
-  <input type="radio" id="Wortliste2" name="Wortliste" value="2" required class="condition-radio-input"/>
-  <label for="Wortliste2" class="condition-label">2</label>
-</div>
-
-  <div class="condition-block">
-    <p>Erinnert + Reaktiviert</p>
-    <label for="Erinnert-Reaktiviert-Ton">Ton</label>
-    <select name="Erinnert + Reaktiviert Ton" id="Erinnert-Reaktiviert-Ton" required class="condition-select">
+    <p>Unasoziierter Ton</p>
+    <select name="Unasoziierter Ton" id="Unasoziierter Ton" required class="condition-select">
       <option value="">-</option>
       <option value="1">Sound 1</option>
       <option value="2">Sound 2</option>
       <option value="3">Sound 3</option>
       <option value="4">Sound 4</option>
+      <option value="5">Sound 5</option>
     </select>
-    <label for="Erinnert-Reaktiviert-Liste">Liste</label>
-    <select name="Erinnert + Reaktiviert Liste" id="Erinnert-Reaktiviert-Liste" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Liste 1</option>
-      <option value="2">Liste 2</option>
-      <option value="3">Liste 3</option>
-      <option value="4">Liste 4</option>
-    </select>
-  </div>
 
-  <div class="condition-block">
-    <p>Vergessen + Reaktiviert</p>
-    <label for="Vergessen-Reaktiviert-Ton">Ton</label>
-    <select name="Vergessen + Reaktiviert Ton" id="Vergessen-Reaktiviert-Ton" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Sound 1</option>
-      <option value="2">Sound 2</option>
-      <option value="3">Sound 3</option>
-      <option value="4">Sound 4</option>
-    </select>
-    <label for="Vergessen-Reaktiviert-Liste">Liste</label>
-    <select name="Vergessen + Reaktiviert Liste" id="Vergessen-Reaktiviert-Liste" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Liste 1</option>
-      <option value="2">Liste 2</option>
-      <option value="3">Liste 3</option>
-      <option value="4">Liste 4</option>
-    </select>
-  </div>
-
-  <div class="condition-block">
-    <p>Erinnert + Nicht-Reaktiviert</p>
-    <label for="Erinnert-NichtReaktiviert-Ton">Ton</label>
-    <select name="Erinnert + Nicht-Reaktiviert Ton" id="Erinnert-NichtReaktiviert-Ton" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Sound 1</option>
-      <option value="2">Sound 2</option>
-      <option value="3">Sound 3</option>
-      <option value="4">Sound 4</option>
-    </select>
-    <label for="Erinnert-NichtReaktiviert-Liste">Liste</label>
-    <select name="Erinnert + Nicht-Reaktiviert Liste" id="Erinnert-NichtReaktiviert-Liste" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Liste 1</option>
-      <option value="2">Liste 2</option>
-      <option value="3">Liste 3</option>
-      <option value="4">Liste 4</option>
-    </select>
-  </div>
-
-  <div class="condition-block">
-    <p>Vergessen + Nicht-Reaktiviert</p>
-    <label for="Vergessen-NichtReaktiviert-Ton">Ton</label>
-    <select name="Vergessen + Nicht-Reaktiviert Ton" id="Vergessen-NichtReaktiviert-Ton" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Sound 1</option>
-      <option value="2">Sound 2</option>
-      <option value="3">Sound 3</option>
-      <option value="4">Sound 4</option>
-    </select>
-    <label for="Vergessen-NichtReaktiviert-Liste">Liste</label>
-    <select name="Vergessen + Nicht-Reaktiviert Liste" id="Vergessen-NichtReaktiviert-Liste" required class="condition-select">
-      <option value="">-</option>
-      <option value="1">Liste 1</option>
-      <option value="2">Liste 2</option>
-      <option value="3">Liste 3</option>
-      <option value="4">Liste 4</option>
-    </select>
-  </div>
-
-  <p>Unasoziierter Ton</p>
-  <select name="Unasoziierter Ton" id="Unasoziierter Ton" required class="condition-select">
-    <option value="">-</option>
-    <option value="1">Sound 1</option>
-    <option value="2">Sound 2</option>
-    <option value="3">Sound 3</option>
-    <option value="4">Sound 4</option>
-    <option value="5">Sound 5</option>
-  </select>
-
-  
+    
 </div>
     
-`, 
+`,
   on_finish: function (data) {
     const responses = data.response;
     const toNumber = (val, fallback) => {
@@ -159,7 +174,7 @@ const CBC_VPNNummer = {
       responses["Vergessen + Nicht-Reaktiviert Liste"],
       4
     );
-    listToRemember = responses["Wortliste"];
+    listToRemember = null;
     confidenceCheckTonesTimeline.timeline_variables =
       buildConfidenceToneTimelineVariables();
     settingsDone = true;
@@ -169,17 +184,8 @@ const CBC_VPNNummer = {
 const freeRecallWoerter = {
   type: freeRecall,
   prompt:
-    "Geben Sie die Wörter ein und bestätigen Sie Ihre Eingabe mit der Enter-Taste.",
+    'Geben Sie alle mit "EEE" markierten Wörter  ein und bestätigen Sie Ihre Eingaben mit der Enter-Taste.',
   button_label: "Fertig",
-};
-
-// Cued-Recall Phase
-const cuedRecallTrial = {
-  type: cuedRecall,
-  prompt:
-    "Vervollständigen sie das Wort und bestätigen sie ihre Eingabe mit der Enter-Taste.",
-  button_label: "Fertig",
-  string_to_display: cuedRecallTestList,
 };
 
 // Plays sound 5 12 times consecutively
@@ -198,6 +204,7 @@ const playUnrelatedSound = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: () => resolveUnrelatedSoundStimulus(),
   prompt: '<div style="font-size: 60px;">+</div>',
+
   choices: "NO_KEYS",
   trial_duration: 3500,
   on_start: function (trial) {

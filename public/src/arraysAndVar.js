@@ -120,4 +120,4 @@ const EXCLUSION_CONFIG = {
 
 const toNum = (v) => Number(String(v ?? "").replace(",", "."));
 
-const cuedRecallTestList = [];
+var cuedRecallTestList = [];

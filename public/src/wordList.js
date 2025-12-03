@@ -94,8 +94,8 @@ const wordListTest = [
 
 const wordListTest1 = ["Prinz", "Tropfen", "Arbeit"];
 const wordListTest2 = ["Hase", "Wein", "Montag"];
-const wordListTest3 = ["Herd", "Kaelte", "Kabel"];
-const wordListTest4 = ["Banane", "Tuer", "Uhr"];
+const wordListTest3 = ["Herd", "Kälte", "Kabel"];
+const wordListTest4 = ["Banane", "Tür", "Uhr"];
 
 const wordListExample = ["Sonne", "Rose", "Sumpf", "Toast"];
 

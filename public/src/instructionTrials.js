@@ -85,8 +85,9 @@ const instructions_4 = {
   type: jsPsychInstructions,
   pages: [
     `<div class="instructions">
-        <p> Nun folgt der Gedächtnistest. Zunächst einmal bitten wir Sie, alle Wörter, die Sie auch erinnern sollten, frei aus dem Gedächtnis abzurufen. </p>
-        </div>`,
+    <p> Nun folgt der Gedächtnistest. Zunächst einmal bitten wir Sie, alle Wörter, die Sie auch erinnern sollten, frei aus dem Gedächtnis abzurufen. </p>
+    <p> Sobald Sie ein Wort eingegeben haben, können Sie Ihre Eingabe mit der Enter-Taste bestätigen. Sobald Ihnen keine Wörter mehr einfallen, können Sie mit dem Fertig-Button fortfahren. Sie müssen dann noch bestätigen, dass Sie wirklich fortfahren wollen sowie ein weiteres Mal auf den Fertig-Button klicken.</p>
+</div>`,
   ],
   show_clickable_nav: true,
   button_label_next: "Gedächtnistest beginnen",
@@ -101,6 +102,7 @@ const instructions_5 = {
          Wir zeigen Ihnen von diesen Wörtern jetzt jeweils die ersten beiden Buchstaben und möchten Sie bitten, das Wort 
          dann entsprechend zu vervollständigen. <br> Auch wenn sie das Wort eben schon korrekt erinnert haben, sollen Sie es
           trotzdem noch einmal in diesem Test vervollständigen., </p>
+          <p> Ihre Eingabe bestätigen Sie bitte wieder mit der Enter-Taste. Beim letzten Word erscheint der Fertig-Button, mit dem Sie Fortfahren können. Das Bestätigen mit der Enter Taste funktioniert beim letzten Wort nicht mehr. Tippen Sie das Wort ein und klicken Sie dann auf den Fertig-Button, Ihre Eingabe wird gespeichert.</p>
         </div>`,
   ],
   show_clickable_nav: true,

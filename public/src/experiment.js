@@ -37,6 +37,16 @@ const jsPsych = initJsPsych({
   },
 });
 
+const cuedRecallTrial = {
+  type: cuedRecall,
+  prompt:
+    "Vervollständigen Sie das Wort und bestätigen Sie Ihre Eingabe mit der Enter-Taste.",
+  button_label: "Fertig",
+  string_to_display: jsPsych.randomization.shuffle(
+    wordListTest1.concat(wordListTest3)
+  ),
+};
+
 const buildFromVPNTrial = {
   type: jsPsychCallFunction,
   async: true,
@@ -148,7 +158,6 @@ const buildFromVPNTrial = {
           false,
           true
         ),
-
         instructions_4,
         freeRecallWoerter,
         instructions_5,
